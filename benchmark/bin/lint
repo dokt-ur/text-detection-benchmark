@@ -1,0 +1,17 @@
+#!/bin/bash
+set -exu
+
+pip3 install -r requirements.txt
+
+cd "$(dirname "$0")"/..
+
+FILES=$(find . -type f -name '*.py' -not -path "./tmp-env/*")
+
+isort ${FILES}
+black .
+
+# Flake8 and wemake
+flake8 ${FILES}
+
+# Type verification with mypy
+mypy ${FILES}
