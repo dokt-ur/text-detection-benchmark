@@ -1,0 +1,6 @@
+paddlepaddle
+paddleocr>=2.0.1
+PyMuPDF==1.21.1
+Pillow
+opencv-python==4.5.5.64
+fire
