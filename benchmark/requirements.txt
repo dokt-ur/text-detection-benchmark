@@ -4,3 +4,12 @@ PyMuPDF==1.21.1
 Pillow
 opencv-python==4.5.5.64
 fire
+numpy==1.23
+jinja2
+
+# dev
+isort
+black
+flake8
+mypy
+types-requests
