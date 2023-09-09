@@ -5,7 +5,7 @@ from uuid import uuid4
 
 import fire
 from helper import get_system_info
-from ocr.paddle import Paddle
+
 
 OUTPUT_DIR = "output"
 TEXT_DIR = "imgs/test-set/text/resized"
@@ -32,7 +32,8 @@ def run():
         print(f"no files found in {NOTEXT_DIR}")
 
     metrics = {}
-
+    """
+    from ocr.paddle import Paddle
     paddle = Paddle(paddle_version="v1")
     paddle_metrics = paddle.run_benchmark(text_file_list, notext_file_list, target_dir)
     metrics["PaddleOCR-v1"] = paddle_metrics
@@ -62,6 +63,13 @@ def run():
     paddle_metrics = paddle.run_benchmark(text_file_list, notext_file_list, target_dir)
     metrics["PaddleOCR-v4"] = paddle_metrics
     del paddle
+
+    """
+    from ocr.deepsolo import DeepSolo
+    deep_solo = DeepSolo()
+    deepsolo_metrics = deep_solo.run_benchmark(text_file_list, notext_file_list, target_dir)
+    metrics["DeepSolo"] = deepsolo_metrics
+    del deep_solo
 
     """
     # NOTE: Rest is useless, just keeping here as a reference.
