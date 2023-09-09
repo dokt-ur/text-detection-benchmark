@@ -1,11 +1,20 @@
-paddlepaddle
-paddleocr>=2.0.1
-PyMuPDF==1.21.1
-Pillow
+paddlepaddle==2.5.1
+paddleocr==2.7.0.2
+PyMuPDF==1.20.2
+Pillow==10.0.0
 opencv-python==4.5.5.64
 fire
 numpy==1.23
 jinja2
+ppocr-onnx
+imutils
+scikit-image
+scipy
+keras-ocr
+tensorflow==2.13.0
+easyocr
+torch==2.0.1 -f https://download.pytorch.org/whl/cpu
+torchvision==0.15.2 -f https://download.pytorch.org/whl/cpu
 
 # dev
 isort
@@ -13,3 +22,5 @@ black
 flake8
 mypy
 types-requests
+
+# pip3 install pytorch torchvision -f https://download.pytorch.org/whl/torch_stable.html

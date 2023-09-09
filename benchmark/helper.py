@@ -10,6 +10,14 @@ import psutil
 from jinja2 import Template
 
 
+def calculate_megapixels(image: np.ndarray):
+    # Get the dimensions of the image
+    height, width, _ = image.shape
+
+    # Calculate the megapixels
+    return (width * height) / 1e6
+
+
 def resize_image_to_target_megapixels(
     image: np.ndarray, target_megapixels: float
 ) -> int:
@@ -19,14 +27,11 @@ def resize_image_to_target_megapixels(
     Args:
         image: opencv image.
     """
-    # Get the dimensions of the image
-    height, width, _ = image.shape
-
-    # Calculate the megapixels
-    megapixels = (width * height) / 1e6
+    megapixels = calculate_megapixels(image)
 
     # Calculate the new width and height to achieve 0.5 megapixels
     if megapixels > target_megapixels:
+        height, width, _ = image.shape
         aspect_ratio = width / height
 
         new_height = int((target_megapixels * 1e6 / aspect_ratio) ** 0.5)
