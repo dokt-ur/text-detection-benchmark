@@ -2,21 +2,16 @@
 
 #### Setup Instructions:
 
-##### Enable virtual environment
-
 ```
+# create a new virtual environment
 python3 -m venv paddle_env
 source paddle_env/bin/activate
-```
 
-##### Installation
-
-```
 cd benchmark
-./bin/run
+./bin/install
 ```
 
-##### Resize images
+##### Resize images before running the benchmark
 ```
 cd benchmark
 python3 resize_images.py imgs/test-set/text
@@ -24,19 +19,13 @@ python3 resize_images.py imgs/test-set/notext
 ```
 
 
-##### Run bBnchmarks
+##### Run benchmarks
 ```
 cd benchmark
 ./bin/run
 ```
 
 ### Report
-
-
-```
-/usr/bin/time -v ./bin/run
-```
-
 
 | Model   | Performance | Max RSS (kbytes) | Output |
 | -------- | ----------- | -------- | -------- | 
