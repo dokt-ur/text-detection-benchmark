@@ -163,3 +163,4 @@ deepsolo_py38_env
 envs/
 .DS_Store
 benchmark/output/
+benchmark/ext/DeepSolo/models/
