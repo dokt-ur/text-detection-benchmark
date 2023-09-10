@@ -22,5 +22,3 @@ black
 flake8
 mypy
 types-requests
-
-# pip3 install pytorch torchvision -f https://download.pytorch.org/whl/torch_stable.html

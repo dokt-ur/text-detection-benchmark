@@ -3,4 +3,10 @@ set -exu
 
 cd "$(dirname "$0")"/..
 
-/usr/bin/time -v python3 main.py
+#source ../envs/paddle/bin/activate
+#/usr/bin/time -v python3 main.py paddle
+#deactivate
+
+source ../envs/deepsolo_py38/bin/activate
+/usr/bin/time -v python3 main.py deepsolo
+deactivate

@@ -1,5 +1,38 @@
 #!/bin/bash
 set -exu
 
+# Paddle env
+python3.8 -m venv ../envs/paddle
+source ../envs/paddle/bin/activate
 sudo apt-get update && sudo apt-get install ffmpeg libsm6 libxext6 build-essential python3-dev gcc -y
 pip3 install -r requirements.txt
+deactivate
+
+
+# Deepsolo env
+# requires py38
+# add-apt-repository ppa:deadsnakes/ppa
+# apt install python3.8 python3.8-distutils python3.8-venv python3.8-dev -y
+# curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+# python3.8 get-pip.py
+
+## NOTE: swap should be enabled to install detectron2
+# Run the following commands to enable swap
+#sudo fallocate -l 5G /swapfile
+#sudo chmod 600 /swapfile
+#sudo mkswap /swapfile
+#sudo swapon /swapfile
+
+# Verify swap memory
+#sudo swapon --show
+#free -h
+
+python3.8 -m venv ../envs/deepsolo_py38
+source ../envs/deepsolo_py38/bin/activate
+
+cd ./ext/DeepSolo
+pip install torch==1.11.0+cpu torchvision==0.12.0+cpu -f https://download.pytorch.org/whl/torch_stable.html --no-cache-dir
+pip install -r requirements.txt
+pip install 'git+https://github.com/facebookresearch/detectron2.git@v0.4#egg=detectron2' --no-cache-dir
+# python setup.py build develop
+deactivate

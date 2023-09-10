@@ -12,7 +12,7 @@ TEXT_DIR = "imgs/test-set/text/resized"
 NOTEXT_DIR = "imgs/test-set/notext/resized"
 
 
-def run():
+def run(model_to_run):
     """Run benchmark on test set."""
 
     transaction_id = str(uuid4())
@@ -32,44 +32,45 @@ def run():
         print(f"no files found in {NOTEXT_DIR}")
 
     metrics = {}
-    """
-    from ocr.paddle import Paddle
-    paddle = Paddle(paddle_version="v1")
-    paddle_metrics = paddle.run_benchmark(text_file_list, notext_file_list, target_dir)
-    metrics["PaddleOCR-v1"] = paddle_metrics
-    del paddle
+    
+    if model_to_run == "paddle": 
+        from ocr.paddle import Paddle
+        paddle = Paddle(paddle_version="v1")
+        paddle_metrics = paddle.run_benchmark(text_file_list, notext_file_list, target_dir)
+        metrics["PaddleOCR-v1"] = paddle_metrics
+        del paddle
 
-    paddle = Paddle(paddle_version="v2")
-    paddle_metrics = paddle.run_benchmark(text_file_list, notext_file_list, target_dir)
-    metrics["PaddleOCR-v2"] = paddle_metrics
-    del paddle
+        paddle = Paddle(paddle_version="v2")
+        paddle_metrics = paddle.run_benchmark(text_file_list, notext_file_list, target_dir)
+        metrics["PaddleOCR-v2"] = paddle_metrics
+        del paddle
 
-    paddle = Paddle(paddle_version="v3")
-    paddle_metrics = paddle.run_benchmark(text_file_list, notext_file_list, target_dir)
-    metrics["PaddleOCR-v3"] = paddle_metrics
-    del paddle
+        paddle = Paddle(paddle_version="v3")
+        paddle_metrics = paddle.run_benchmark(text_file_list, notext_file_list, target_dir)
+        metrics["PaddleOCR-v3"] = paddle_metrics
+        del paddle
 
-    paddle = Paddle(paddle_version="v3-slim")
-    paddle_metrics = paddle.run_benchmark(text_file_list, notext_file_list, target_dir)
-    metrics["PaddleOCR-v3-slim"] = paddle_metrics
-    del paddle
+        paddle = Paddle(paddle_version="v3-slim")
+        paddle_metrics = paddle.run_benchmark(text_file_list, notext_file_list, target_dir)
+        metrics["PaddleOCR-v3-slim"] = paddle_metrics
+        del paddle
 
-    paddle = Paddle(paddle_version="v3-ml-slim")
-    paddle_metrics = paddle.run_benchmark(text_file_list, notext_file_list, target_dir)
-    metrics["PaddleOCR-v3-ml-slim"] = paddle_metrics
-    del paddle
+        paddle = Paddle(paddle_version="v3-ml-slim")
+        paddle_metrics = paddle.run_benchmark(text_file_list, notext_file_list, target_dir)
+        metrics["PaddleOCR-v3-ml-slim"] = paddle_metrics
+        del paddle
 
-    paddle = Paddle(paddle_version="v4")
-    paddle_metrics = paddle.run_benchmark(text_file_list, notext_file_list, target_dir)
-    metrics["PaddleOCR-v4"] = paddle_metrics
-    del paddle
+        paddle = Paddle(paddle_version="v4")
+        paddle_metrics = paddle.run_benchmark(text_file_list, notext_file_list, target_dir)
+        metrics["PaddleOCR-v4"] = paddle_metrics
+        del paddle
 
-    """
-    from ocr.deepsolo import DeepSolo
-    deep_solo = DeepSolo()
-    deepsolo_metrics = deep_solo.run_benchmark(text_file_list, notext_file_list, target_dir)
-    metrics["DeepSolo"] = deepsolo_metrics
-    del deep_solo
+    elif model_to_run == "deepsolo":
+        from ocr.deepsolo import DeepSolo
+        deep_solo = DeepSolo()
+        deepsolo_metrics = deep_solo.run_benchmark(text_file_list, notext_file_list, target_dir)
+        metrics["DeepSolo"] = deepsolo_metrics
+        del deep_solo
 
     """
     # NOTE: Rest is useless, just keeping here as a reference.
