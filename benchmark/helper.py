@@ -1,4 +1,5 @@
 import json
+import math
 import platform
 import re
 import socket
@@ -43,6 +44,17 @@ def resize_image_to_target_megapixels(
     # non-resized image will be return if it is below or equal to 0.5MP
     return image
 
+
+def resize_image_for_east(image, target_megapixels: float = 0.5):
+    aspect_ratio = image.shape[1] / image.shape[0]
+    target_width = int(math.sqrt(target_megapixels * 1e6 * aspect_ratio))
+    target_height = int(target_width / aspect_ratio)
+
+    # Ensure that both width and height are multiples of 32
+    target_width = (target_width // 32) * 32
+    target_height = (target_height // 32) * 32
+
+    return cv2.resize(image, (target_width, target_height))
 
 def get_system_info():
     """Get system information."""

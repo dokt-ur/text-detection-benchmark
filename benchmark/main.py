@@ -46,7 +46,7 @@ def run(model_to_run, target_mpx: float = 0.5):
         print(f"no files found in {notext_dir}")
 
     metrics = {}
-    
+
     if model_to_run == "paddle": 
         from ocr.paddle import Paddle
         
@@ -86,6 +86,13 @@ def run(model_to_run, target_mpx: float = 0.5):
         deepsolo_metrics = deep_solo.run_benchmark(text_file_list, notext_file_list, target_dir)
         metrics["DeepSolo"] = deepsolo_metrics
         del deep_solo
+
+    if model_to_run == "east":
+        from ocr.east import East
+        east = East(target_mpx)
+        east_metrics = east.run_benchmark(text_file_list, notext_file_list, target_dir)
+        metrics["east"] = east_metrics
+        del east
 
     """
     # NOTE: Rest is useless, just keeping here as a reference.

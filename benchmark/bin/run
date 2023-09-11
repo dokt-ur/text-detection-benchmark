@@ -3,8 +3,12 @@ set -exu
 
 cd "$(dirname "$0")"/..
 
+#source ../envs/paddle/bin/activate
+#/usr/bin/time -v python3 main.py paddle 0.33
+#deactivate
+
 source ../envs/paddle/bin/activate
-/usr/bin/time -v python3 main.py paddle 0.33
+/usr/bin/time -v python3 main.py east 0.33
 deactivate
 
 # CAUTION: download model weights to "ext/DeepSolo/models/"" directory
