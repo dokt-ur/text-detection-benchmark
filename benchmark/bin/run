@@ -3,13 +3,13 @@ set -exu
 
 cd "$(dirname "$0")"/..
 
-#source ../envs/paddle/bin/activate
-#/usr/bin/time -v python3 main.py paddle
-#deactivate
+source ../envs/paddle/bin/activate
+/usr/bin/time -v python3 main.py paddle 0.33
+deactivate
 
 # CAUTION: download model weights to "ext/DeepSolo/models/"" directory
 # e.g. ext/DeepSolo/models/tt_vitaev2-s_finetune_synth-tt-mlt-13-15-textocr.pth
 
-source ../envs/deepsolo_py38/bin/activate
-/usr/bin/time -v python3 main.py deepsolo
-deactivate
+#source ../envs/deepsolo_py38/bin/activate
+#/usr/bin/time -v python3 main.py deepsolo
+#deactivate

@@ -7,10 +7,10 @@ from helper import resize_image_to_target_megapixels
 from tqdm import tqdm
 
 OUTPUT_DIR = "resized"
-TARGET_MEGAPIXELS = 0.5
+DEFAULT_TARGET_MEGAPIXELS = 0.5
 
 
-def resize(file_dir: str):
+def resize(file_dir: str, target_megapixels: float = DEFAULT_TARGET_MEGAPIXELS):
     """Resize images in a given directory.
 
     Args:
@@ -22,7 +22,7 @@ def resize(file_dir: str):
         print(f"no files found in {file_dir}")
         return
 
-    target_dir = f"{file_dir}/{OUTPUT_DIR}"
+    target_dir = f"{file_dir}/{OUTPUT_DIR}/{target_megapixels}"
     if not os.path.exists(target_dir):
         print(f"created emtpy dir: {target_dir}")
         os.makedirs(target_dir)
@@ -37,7 +37,7 @@ def resize(file_dir: str):
         print(f"file_path: {file_path}")
 
         # calculate megapixels
-        output_image = resize_image_to_target_megapixels(image, TARGET_MEGAPIXELS)
+        output_image = resize_image_to_target_megapixels(image, target_megapixels)
 
         cv2.imwrite(output_file_path, output_image)
 

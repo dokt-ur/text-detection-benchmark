@@ -8,12 +8,26 @@ from helper import get_system_info
 
 
 OUTPUT_DIR = "output"
-TEXT_DIR = "imgs/test-set/text/resized"
-NOTEXT_DIR = "imgs/test-set/notext/resized"
 
 
-def run(model_to_run):
-    """Run benchmark on test set."""
+
+def run(model_to_run, target_mpx: float = 0.5):
+    """Run benchmark on test set.
+    
+    Args:
+        model_to_run: paddle, deepsolo, etc.
+        target_mpx: target megapixel value, 0.5 by default
+    """
+    print(f"model_to_run: {model_to_run}, target_mpx:{target_mpx}")
+
+    text_dir = "imgs/test-set/text/resized/0.5"
+    notext_dir = "imgs/test-set/notext/resized/0.5"
+    if target_mpx == 0.33:
+        # NOTE: Ensure that you can the following commands first to prepare the dataset
+        # `python3 resize_images.py imgs/test-set/text 0.33`
+        # `python3 resize_images.py imgs/test-set/notext 0.33`
+        text_dir = "imgs/test-set/text/resized/0.33"
+        notext_dir = "imgs/test-set/notext/resized/0.33"
 
     transaction_id = str(uuid4())
     target_dir = f"{OUTPUT_DIR}/{transaction_id}"
@@ -22,19 +36,20 @@ def run(model_to_run):
         os.makedirs(target_dir)
 
     # images with text
-    text_file_list = glob(f"{TEXT_DIR}/*.jpg")
+    text_file_list = glob(f"{text_dir}/*.jpg")
     if not text_file_list:
-        print(f"no files found in {TEXT_DIR}")
+        print(f"no files found in {text_dir}")
 
     # images with NO-text
-    notext_file_list = glob(f"{NOTEXT_DIR}/*.jpg")
+    notext_file_list = glob(f"{notext_dir}/*.jpg")
     if not notext_file_list:
-        print(f"no files found in {NOTEXT_DIR}")
+        print(f"no files found in {notext_dir}")
 
     metrics = {}
     
     if model_to_run == "paddle": 
         from ocr.paddle import Paddle
+        
         paddle = Paddle(paddle_version="v1")
         paddle_metrics = paddle.run_benchmark(text_file_list, notext_file_list, target_dir)
         metrics["PaddleOCR-v1"] = paddle_metrics
