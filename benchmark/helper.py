@@ -32,7 +32,7 @@ def resize_image_to_target_megapixels(
 
     # Calculate the new width and height to achieve 0.5 megapixels
     if megapixels > target_megapixels:
-        height, width, _ = image.shape
+        (height, width) = image.shape[:2]
         aspect_ratio = width / height
 
         new_height = int((target_megapixels * 1e6 / aspect_ratio) ** 0.5)
@@ -45,14 +45,26 @@ def resize_image_to_target_megapixels(
     return image
 
 
-def resize_image_for_east(image, target_megapixels: float = 0.5):
-    aspect_ratio = image.shape[1] / image.shape[0]
-    target_width = int(math.sqrt(target_megapixels * 1e6 * aspect_ratio))
-    target_height = int(target_width / aspect_ratio)
+def resize_image_for_cvdnn(image, target_megapixels: float = 0.5):
+    """Resize image for opencv EAST and DB models."""
+    mpx = calculate_megapixels(image)
+    (height, width) = image.shape[:2]
+    
+    target_width = None
+    target_height = None
+    if mpx <= target_megapixels:
+        # don't upscale
+        target_width = (width // 32) * 32
+        target_height = (height // 32) * 32
+    else:
+        # downscale only if needed
+        aspect_ratio = image.shape[1] / image.shape[0]
+        target_width = int(math.sqrt(target_megapixels * 1e6 * aspect_ratio))
+        target_height = int(target_width / aspect_ratio)
 
-    # Ensure that both width and height are multiples of 32
-    target_width = (target_width // 32) * 32
-    target_height = (target_height // 32) * 32
+        # Ensure that both width and height are multiples of 32
+        target_width = (target_width // 32) * 32
+        target_height = (target_height // 32) * 32
 
     return cv2.resize(image, (target_width, target_height))
 

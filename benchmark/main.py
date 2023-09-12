@@ -87,12 +87,20 @@ def run(model_to_run, target_mpx: float = 0.5):
         metrics["DeepSolo"] = deepsolo_metrics
         del deep_solo
 
-    if model_to_run == "east":
+    elif model_to_run == "east":
         from ocr.east import East
         east = East(target_mpx)
         east_metrics = east.run_benchmark(text_file_list, notext_file_list, target_dir)
         metrics["east"] = east_metrics
         del east
+
+    elif model_to_run == "opencv_db":
+        from ocr.opencv_db import OpencvDB
+        opencv_db = OpencvDB(model_id="DB_TD500_resnet18", target_mpx=target_mpx)
+        opencv_db_metrics = opencv_db.run_benchmark(text_file_list, notext_file_list, target_dir)
+        metrics["opencv_db"] = opencv_db_metrics
+        del opencv_db
+
 
     """
     # NOTE: Rest is useless, just keeping here as a reference.
