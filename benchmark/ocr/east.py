@@ -6,7 +6,7 @@ import cv2
 import numpy as np
 from imutils.object_detection import non_max_suppression
 
-from helper import calculate_megapixels, resize_image_for_east
+from helper import calculate_megapixels, resize_image_for_cvdnn
 from ocr import Ocr
 
 
@@ -142,7 +142,7 @@ class East(Ocr):
         for file_path in tqdm(text_file_list):
             # read image into memory
             image = cv2.imread(file_path)
-            image = resize_image_for_east(image, target_megapixels=self.target_mpx)
+            image = resize_image_for_cvdnn(image, target_megapixels=self.target_mpx)
 
             # process image
             start_time = time.time()
@@ -161,7 +161,7 @@ class East(Ocr):
         for file_path in tqdm(notext_file_list):
             # read image into memory
             image = cv2.imread(file_path)
-            image = resize_image_for_east(image, target_megapixels=self.target_mpx)
+            image = resize_image_for_cvdnn(image, target_megapixels=self.target_mpx)
 
             # process image
             start_time = time.time()
