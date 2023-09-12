@@ -20,15 +20,12 @@ class OpencvDB(Ocr):
         self.test_image_path = TEST_IMG_PATH
         self.weights_file_path = f"/root/github/text-detection-benchmark/benchmark/models/{model_id}.onnx"
         
-        self.scale = 1.0 / 255.0
-        self.mean = (122.67891434, 116.66876762, 104.00698793)
-        self.swap = False
-        self.crop = False
-
         self.init_model()
+
 
     def init_model(
         self,
+        run_dummy_inference: bool = True
     ):
         # load the text detection model to memory
         print("loading DB text detector...")
@@ -42,20 +39,18 @@ class OpencvDB(Ocr):
         self.model.setMaxCandidates(200)
         self.model.setUnclipRatio(2.0)
 
-        # to eliminate cold start issue, run dummy inferences
-        image = cv2.imread(self.test_image_path)
-        image = resize_image_for_cvdnn(image, target_megapixels=self.target_mpx)
-        (height, width) = image.shape[:2]
-        self.model.setInputParams(self.scale, (width, height), self.mean, self.swap, self.crop)
-        
-        rotated_rectangles, _ = self.model.detectTextRectangles(image)
+        # set input shape and normalization params
+        self.model.setInputScale(1.0 / 255.0)
+        self.model.setInputMean((122.67891434, 116.66876762, 104.00698793))
 
-        # print points from rotated rectangles
-        for rotated_rectangle in rotated_rectangles:
-            #print(type(rotated_rectangle))
-            #print(rotated_rectangle)
-            points = cv2.boxPoints(rotated_rectangle) # error in opencv 4.5.4
-            #print(points)
+        if run_dummy_inference:
+            # to eliminate cold start issue, run dummy inferences
+            image = cv2.imread(self.test_image_path)
+            image = resize_image_for_cvdnn(image, target_megapixels=self.target_mpx)
+            (height, width) = image.shape[:2]
+            self.model.setInputSize(width, height)
+            
+            self.process_image(image)
 
 
     def process_image(self, image: np.ndarray):
@@ -65,9 +60,9 @@ class OpencvDB(Ocr):
         # loop over the bounding boxes
         for rotated_rectangle in rotated_rectangles:
             #print(type(rotated_rectangle))
-            #print(rotated_rectangle)
+            # print(rotated_rectangle)
             points = cv2.boxPoints(rotated_rectangle) # error in opencv 4.5.4
-            #print("points:", points)
+            # print("points:", points)
             cv2.drawContours(image, [np.int0(points)], 0, (255, 0, 0), 2)
             # cv2.rectangle(image, (startX, startY), (endX, endY), (0, 255, 0), 2)
 
@@ -89,12 +84,12 @@ class OpencvDB(Ocr):
             # read image into memory
             image = cv2.imread(file_path)
 
-            print("before", image.shape)
             image = resize_image_for_cvdnn(image, target_megapixels=self.target_mpx)
-            
             (height, width) = image.shape[:2]
-            self.model.setInputParams(self.scale, (width, height), self.mean, self.swap, self.crop)
-            print("after", image.shape)
+
+            # TODO: model inference does not work well on dynamic input shapes
+            self.init_model(run_dummy_inference=False)
+            self.model.setInputSize(width, height)
             
             # process image
             start_time = time.time()
@@ -114,12 +109,12 @@ class OpencvDB(Ocr):
             # read image into memory
             image = cv2.imread(file_path)
 
-            print("before", image.shape)
             image = resize_image_for_cvdnn(image, target_megapixels=self.target_mpx)
-
             (height, width) = image.shape[:2]
-            self.model.setInputParams(self.scale, (width, height), self.mean, self.swap, self.crop)
-            print("after", image.shape)
+            
+            # TODO: model inference does not work well on dynamic input shapes
+            self.init_model(run_dummy_inference=False)
+            self.model.setInputSize(width, height)
             
             # process image
             start_time = time.time()

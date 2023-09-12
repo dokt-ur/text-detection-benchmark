@@ -1,0 +1,13 @@
+{
+    "opencv_db": {
+        "avg_per_image": 2262.6996517181396,
+        "avg_per_mpx": 7511.839214257925,
+        "avg_per_text_image": 2279.9524307250977,
+        "avg_per_notext_image": 2245.4468727111816,
+        "avg_per_text_mpx": 7754.992912355277,
+        "avg_per_notext_mpx": 7268.685516160574,
+        "total_text_images": 10,
+        "total_notext_images": 10
+    },
+    "system_info": "{\"platform\": \"Linux\", \"platform-release\": \"5.15.0-83-generic\", \"platform-version\": \"#92-Ubuntu SMP Mon Aug 14 09:30:42 UTC 2023\", \"architecture\": \"x86_64\", \"hostname\": \"do-personal-vm-1\", \"ip-address\": \"127.0.1.1\", \"mac-address\": \"01:b2:ef:7a:d5:9f\", \"processor\": \"x86_64\", \"ram\": \"2 GB\"}"
+}
