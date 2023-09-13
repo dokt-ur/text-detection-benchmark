@@ -1,14 +1,14 @@
 #!/bin/bash
 set -exu
 
-pip3 install -r requirements.txt
+pip3 install isort black flake8 mypy types-requests
 
 cd "$(dirname "$0")"/..
 
-FILES=$(find . -type f -name '*.py' -not -path "./tmp-env/*")
+FILES=$(find . -type f -name '*.py' -not -path "./ext/*")
 
 isort ${FILES}
-black .
+black ${FILES}
 
 # Flake8 and wemake
 flake8 ${FILES}

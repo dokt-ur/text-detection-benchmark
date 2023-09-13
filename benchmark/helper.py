@@ -49,7 +49,7 @@ def resize_image_for_cvdnn(image, target_megapixels: float = 0.5):
     """Resize image for opencv EAST and DB models."""
     mpx = calculate_megapixels(image)
     (height, width) = image.shape[:2]
-    
+
     target_width = None
     target_height = None
     if mpx <= target_megapixels:
@@ -67,6 +67,7 @@ def resize_image_for_cvdnn(image, target_megapixels: float = 0.5):
         target_height = (target_height // 32) * 32
 
     return cv2.resize(image, (target_width, target_height))
+
 
 def get_system_info():
     """Get system information."""

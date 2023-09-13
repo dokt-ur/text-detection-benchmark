@@ -17,13 +17,18 @@ cd "$(dirname "$0")"/..
 #deactivate
 
 
-source ../envs/paddle/bin/activate
-/usr/bin/time -v python3 main.py east 0.5
-/usr/bin/time -v python3 main.py east 0.33
-deactivate
+#source ../envs/paddle/bin/activate
+#/usr/bin/time -v python3 main.py east 0.5
+#/usr/bin/time -v python3 main.py east 0.33
+#deactivate
 
 #source ../envs/paddle/bin/activate
 # NOTE: time profiling does not as multiprocessing is not supported on these models
 #python3 main.py opencv_db 0.5
 #python3 main.py opencv_db 0.33
 #deactivate
+
+source ../envs/fast_p38/bin/activate
+/usr/bin/time -v python3 main.py fast 0.5
+/usr/bin/time -v python3 main.py fast 0.33
+deactivate

@@ -35,3 +35,28 @@ pip install -r requirements.txt
 pip install 'git+https://github.com/facebookresearch/detectron2.git@v0.4#egg=detectron2' --no-cache-dir
 # python setup.py build develop
 deactivate
+
+# FAST env
+python3.8 -m venv ../envs/fast_p38
+source ../envs/fast_p38/bin/activate
+
+cd ./ext/FAST
+
+pip install torch==1.11.0+cpu torchvision==0.12.0+cpu -f https://download.pytorch.org/whl/torch_stable.html --no-cache-dir
+pip install -r requirements.txt
+
+# compile.sh
+cd ./models/post_processing/pa/
+python setup.py build_ext --inplace
+cd ../pse/
+python setup.py build_ext --inplace
+#cd ../ccl/
+#python setup.py build_ext --inplace
+cd ../../../
+
+deactivate
+
+
+
+
+

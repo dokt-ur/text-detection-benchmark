@@ -1,36 +1,33 @@
 import os
 import time
-from tqdm import tqdm
 
 import cv2
 import numpy as np
-from imutils.object_detection import non_max_suppression
-
 from helper import calculate_megapixels, resize_image_for_cvdnn
+from imutils.object_detection import non_max_suppression
 from ocr import Ocr
-
+from tqdm import tqdm
 
 TEST_IMG_PATH = "imgs/paddleocr-test-images/254.jpg"
 
 
 class East(Ocr):
     def __init__(self, target_mpx):
-
         self.name = "east"
         self.test_image_path = TEST_IMG_PATH
-        
+
         self.model_confidence = 0.5
-        self.resize_image_width = 320  # should be multiple of 32
-        self.resize_image_height = 320  # should be multiple of 32
+        self.resize_image_width = 320  # should be multiple of 32
+        self.resize_image_height = 320  # should be multiple of 32
         self.target_mpx = target_mpx
 
         self.model_file_path = "/root/github/text-detection-benchmark/benchmark/models/frozen_east_text_detection.pb"
-        
+
         self.layer_names = [
-            "feature_fusion/Conv_7/Sigmoid",  # output probabilities 
-            "feature_fusion/concat_3"  # can be used to derive the bounding box coordinates of text
+            "feature_fusion/Conv_7/Sigmoid",  # output probabilities
+            "feature_fusion/concat_3",  # can be used to derive the bounding box coordinates of text
         ]
-        
+
         self.init_model()
 
     def init_model(
@@ -39,7 +36,7 @@ class East(Ocr):
         # load the pre-trained EAST text detector
         print("[INFO] loading EAST text detector...")
         self.model = cv2.dnn.readNet(self.model_file_path)
-       
+
         # to eliminate cold start issue, run dummy inferences
         image = cv2.imread(self.test_image_path)
         # resize the image and grab the new image dimensions
@@ -47,21 +44,21 @@ class East(Ocr):
 
         # construct a blob from the image and then perform a forward pass of
         # the model to obtain the two output layer sets
-        blob = cv2.dnn.blobFromImage(image, 1.0, (320, 320),
-            (123.68, 116.78, 103.94), swapRB=True, crop=False)
+        blob = cv2.dnn.blobFromImage(
+            image, 1.0, (320, 320), (123.68, 116.78, 103.94), swapRB=True, crop=False
+        )
         self.model.setInput(blob)
         (scores, geometry) = self.model.forward(self.layer_names)
         print(scores, geometry)
 
-
     def process_image(self, image: np.ndarray):
-       
         (H, W) = image.shape[:2]
-        print(H, W, H*W/1e6)
+        print(H, W, H * W / 1e6)
         # construct a blob from the image and then perform a forward pass of
         # the model to obtain the two output layer sets
-        blob = cv2.dnn.blobFromImage(image, 1.0, (W, H),
-            (123.68, 116.78, 103.94), swapRB=True, crop=False)
+        blob = cv2.dnn.blobFromImage(
+            image, 1.0, (W, H), (123.68, 116.78, 103.94), swapRB=True, crop=False
+        )
         self.model.setInput(blob)
         (scores, geometry) = self.model.forward(self.layer_names)
 
@@ -81,7 +78,7 @@ class East(Ocr):
 
             for x in range(0, num_cols):
                 # if our score does not have sufficient probability, ignore it
-                #if scoresData[x] < args["min_confidence"]:
+                # if scoresData[x] < args["min_confidence"]:
                 if scoresData[x] < 0.3:
                     continue
 
@@ -116,7 +113,7 @@ class East(Ocr):
         boxes = non_max_suppression(np.array(rects), probs=confidences)
 
         # loop over the bounding boxes
-        for (startX, startY, endX, endY) in boxes:
+        for startX, startY, endX, endY in boxes:
             # scale the bounding box coordinates based on the respective ratios
             # startX = int(startX * rW)
             # startY = int(startY * rH)

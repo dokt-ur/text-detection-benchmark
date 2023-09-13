@@ -1,32 +1,27 @@
 import os
 import time
-from tqdm import tqdm
 
 import cv2
 import numpy as np
-
 from helper import calculate_megapixels, resize_image_for_cvdnn
 from ocr import Ocr
-
+from tqdm import tqdm
 
 TEST_IMG_PATH = "imgs/paddleocr-test-images/254.jpg"
 
 
 class OpencvDB(Ocr):
     def __init__(self, model_id, target_mpx):
-
         self.target_mpx = target_mpx
         self.name = "opencv_DB"
         self.test_image_path = TEST_IMG_PATH
-        self.weights_file_path = f"/root/github/text-detection-benchmark/benchmark/models/{model_id}.onnx"
-        
+        self.weights_file_path = (
+            f"/root/github/text-detection-benchmark/benchmark/models/{model_id}.onnx"
+        )
+
         self.init_model()
 
-
-    def init_model(
-        self,
-        run_dummy_inference: bool = True
-    ):
+    def init_model(self, run_dummy_inference: bool = True):
         # load the text detection model to memory
         print("loading DB text detector...")
         self.model = cv2.dnn_TextDetectionModel_DB(self.weights_file_path)
@@ -49,22 +44,20 @@ class OpencvDB(Ocr):
             image = resize_image_for_cvdnn(image, target_megapixels=self.target_mpx)
             (height, width) = image.shape[:2]
             self.model.setInputSize(width, height)
-            
+
             self.process_image(image)
 
-
     def process_image(self, image: np.ndarray):
-       
         rotated_rectangles, _ = self.model.detectTextRectangles(image)
 
         # loop over the bounding boxes
         for rotated_rectangle in rotated_rectangles:
-            #print(type(rotated_rectangle))
+            # print(type(rotated_rectangle))
             # print(rotated_rectangle)
-            points = cv2.boxPoints(rotated_rectangle) # error in opencv 4.5.4
+            points = cv2.boxPoints(rotated_rectangle)  # error in opencv 4.5.4
             # print("points:", points)
             cv2.drawContours(image, [np.int0(points)], 0, (255, 0, 0), 2)
-            # cv2.rectangle(image, (startX, startY), (endX, endY), (0, 255, 0), 2)
+            # cv2.rectangle(image, (startX, startY), (endX, endY), (0, 255, 0), 2)
 
         return image
 
@@ -90,7 +83,7 @@ class OpencvDB(Ocr):
             # TODO: model inference does not work well on dynamic input shapes
             self.init_model(run_dummy_inference=False)
             self.model.setInputSize(width, height)
-            
+
             # process image
             start_time = time.time()
             bounded_image = self.process_image(image)
@@ -111,11 +104,11 @@ class OpencvDB(Ocr):
 
             image = resize_image_for_cvdnn(image, target_megapixels=self.target_mpx)
             (height, width) = image.shape[:2]
-            
+
             # TODO: model inference does not work well on dynamic input shapes
             self.init_model(run_dummy_inference=False)
             self.model.setInputSize(width, height)
-            
+
             # process image
             start_time = time.time()
             bounded_image = self.process_image(image)

@@ -164,3 +164,12 @@ envs/
 .DS_Store
 benchmark/output/
 benchmark/ext/DeepSolo/models/*.pth
+benchmark/ext/fast_demo/
+benchmark/ext/FAST/data/
+benchmark/ext/FAST/logs/
+benchmark/ext/FAST/outputs/
+benchmark/ext/FAST/pretrained/
+benchmark/ext/FAST/speed_test/
+benchmark/ext/FAST/test_all.py
+benchmark/ext/FAST/test.py
+benchmark/ext/FAST/test_cpu.py

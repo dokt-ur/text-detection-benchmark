@@ -6,14 +6,12 @@ from uuid import uuid4
 import fire
 from helper import get_system_info
 
-
 OUTPUT_DIR = "output"
-
 
 
 def run(model_to_run, target_mpx: float = 0.5):
     """Run benchmark on test set.
-    
+
     Args:
         model_to_run: paddle, deepsolo, etc.
         target_mpx: target megapixel value, 0.5 by default
@@ -47,48 +45,64 @@ def run(model_to_run, target_mpx: float = 0.5):
 
     metrics = {}
 
-    if model_to_run == "paddle": 
+    if model_to_run == "paddle":
         from ocr.paddle import Paddle
-        
+
         paddle = Paddle(paddle_version="v1")
-        paddle_metrics = paddle.run_benchmark(text_file_list, notext_file_list, target_dir)
+        paddle_metrics = paddle.run_benchmark(
+            text_file_list, notext_file_list, target_dir
+        )
         metrics["PaddleOCR-v1"] = paddle_metrics
         del paddle
 
         paddle = Paddle(paddle_version="v2")
-        paddle_metrics = paddle.run_benchmark(text_file_list, notext_file_list, target_dir)
+        paddle_metrics = paddle.run_benchmark(
+            text_file_list, notext_file_list, target_dir
+        )
         metrics["PaddleOCR-v2"] = paddle_metrics
         del paddle
 
         paddle = Paddle(paddle_version="v3")
-        paddle_metrics = paddle.run_benchmark(text_file_list, notext_file_list, target_dir)
+        paddle_metrics = paddle.run_benchmark(
+            text_file_list, notext_file_list, target_dir
+        )
         metrics["PaddleOCR-v3"] = paddle_metrics
         del paddle
 
         paddle = Paddle(paddle_version="v3-slim")
-        paddle_metrics = paddle.run_benchmark(text_file_list, notext_file_list, target_dir)
+        paddle_metrics = paddle.run_benchmark(
+            text_file_list, notext_file_list, target_dir
+        )
         metrics["PaddleOCR-v3-slim"] = paddle_metrics
         del paddle
 
         paddle = Paddle(paddle_version="v3-ml-slim")
-        paddle_metrics = paddle.run_benchmark(text_file_list, notext_file_list, target_dir)
+        paddle_metrics = paddle.run_benchmark(
+            text_file_list, notext_file_list, target_dir
+        )
         metrics["PaddleOCR-v3-ml-slim"] = paddle_metrics
         del paddle
 
         paddle = Paddle(paddle_version="v4")
-        paddle_metrics = paddle.run_benchmark(text_file_list, notext_file_list, target_dir)
+        paddle_metrics = paddle.run_benchmark(
+            text_file_list, notext_file_list, target_dir
+        )
         metrics["PaddleOCR-v4"] = paddle_metrics
         del paddle
 
     elif model_to_run == "deepsolo":
         from ocr.deepsolo import DeepSolo
+
         deep_solo = DeepSolo()
-        deepsolo_metrics = deep_solo.run_benchmark(text_file_list, notext_file_list, target_dir)
+        deepsolo_metrics = deep_solo.run_benchmark(
+            text_file_list, notext_file_list, target_dir
+        )
         metrics["DeepSolo"] = deepsolo_metrics
         del deep_solo
 
     elif model_to_run == "east":
         from ocr.east import East
+
         east = East(target_mpx)
         east_metrics = east.run_benchmark(text_file_list, notext_file_list, target_dir)
         metrics["east"] = east_metrics
@@ -96,11 +110,21 @@ def run(model_to_run, target_mpx: float = 0.5):
 
     elif model_to_run == "opencv_db":
         from ocr.opencv_db import OpencvDB
+
         opencv_db = OpencvDB(model_id="DB_TD500_resnet18", target_mpx=target_mpx)
-        opencv_db_metrics = opencv_db.run_benchmark(text_file_list, notext_file_list, target_dir)
+        opencv_db_metrics = opencv_db.run_benchmark(
+            text_file_list, notext_file_list, target_dir
+        )
         metrics["opencv_db"] = opencv_db_metrics
         del opencv_db
 
+    elif model_to_run == "fast":
+        from ocr.fast import Fast
+
+        fast = Fast()
+        fast_metrics = fast.run_benchmark(text_file_list, notext_file_list, target_dir)
+        metrics["fast"] = fast_metrics
+        del fast
 
     """
     # NOTE: Rest is useless, just keeping here as a reference.
