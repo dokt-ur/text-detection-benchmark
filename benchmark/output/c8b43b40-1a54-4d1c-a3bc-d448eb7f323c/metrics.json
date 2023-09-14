@@ -1,0 +1,13 @@
+{
+    "mmocr-PSENet": {
+        "avg_per_image": 22147.805619239807,
+        "avg_per_mpx": 51371.132029436216,
+        "avg_per_text_image": 23332.264947891235,
+        "avg_per_notext_image": 20963.34629058838,
+        "avg_per_text_mpx": 60735.4475209933,
+        "avg_per_notext_mpx": 42006.81653787914,
+        "total_text_images": 10,
+        "total_notext_images": 10
+    },
+    "system_info": "{\"platform\": \"Linux\", \"platform-release\": \"5.15.0-83-generic\", \"platform-version\": \"#92-Ubuntu SMP Mon Aug 14 09:30:42 UTC 2023\", \"architecture\": \"x86_64\", \"hostname\": \"do-personal-vm-1\", \"ip-address\": \"127.0.1.1\", \"mac-address\": \"01:b2:ef:7a:d5:9f\", \"processor\": \"x86_64\", \"ram\": \"2 GB\"}"
+}

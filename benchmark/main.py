@@ -126,6 +126,70 @@ def run(model_to_run, target_mpx: float = 0.5):
         metrics["fast"] = fast_metrics
         del fast
 
+    elif model_to_run == "mmocr-DBNetR50":
+        from ocr.mmocr import MMOcr
+
+        mmocr = MMOcr("DBNetR50")
+        mmocr_metrics = mmocr.run_benchmark(text_file_list, notext_file_list, target_dir)
+        metrics["mmocr-DBNetR50"] = mmocr_metrics
+        del mmocr
+
+    elif model_to_run == "mmocr-DBNetR18":
+        from ocr.mmocr import MMOcr
+
+        mmocr = MMOcr("DBNetR18")
+        mmocr_metrics = mmocr.run_benchmark(text_file_list, notext_file_list, target_dir)
+        metrics["mmocr-DBNetR18"] = mmocr_metrics
+        del mmocr
+
+    elif model_to_run == "mmocr-DBNetpp":
+        from ocr.mmocr import MMOcr
+
+        mmocr = MMOcr("DBNetpp")
+        mmocr_metrics = mmocr.run_benchmark(text_file_list, notext_file_list, target_dir)
+        metrics["mmocr-DBNet++"] = mmocr_metrics
+        del mmocr
+
+    elif model_to_run == "mmocr-TextSnake":
+        from ocr.mmocr import MMOcr
+
+        mmocr = MMOcr("TextSnake")
+        mmocr_metrics = mmocr.run_benchmark(text_file_list, notext_file_list, target_dir)
+        metrics["mmocr-TextSnake"] = mmocr_metrics
+        del mmocr
+    
+    elif model_to_run == "mmocr-PANet":
+        from ocr.mmocr import MMOcr
+
+        mmocr = MMOcr("PANet")
+        mmocr_metrics = mmocr.run_benchmark(text_file_list, notext_file_list, target_dir)
+        metrics["mmocr-PANet"] = mmocr_metrics
+        del mmocr
+
+    elif model_to_run == "mmocr-PSENet":
+        from ocr.mmocr import MMOcr
+
+        mmocr = MMOcr("PSENet")
+        mmocr_metrics = mmocr.run_benchmark(text_file_list, notext_file_list, target_dir)
+        metrics["mmocr-PSENet"] = mmocr_metrics
+        del mmocr
+
+    elif model_to_run == "mmocr-DRRG":
+        from ocr.mmocr import MMOcr
+
+        mmocr = MMOcr("DRRG")
+        mmocr_metrics = mmocr.run_benchmark(text_file_list, notext_file_list, target_dir)
+        metrics["mmocr-DRRG"] = mmocr_metrics
+        del mmocr
+
+    elif model_to_run == "mmocr-FCENet":
+        from ocr.mmocr import MMOcr
+
+        mmocr = MMOcr("FCENet")
+        mmocr_metrics = mmocr.run_benchmark(text_file_list, notext_file_list, target_dir)
+        metrics["mmocr-FCENet"] = mmocr_metrics
+        del mmocr
+
     """
     # NOTE: Rest is useless, just keeping here as a reference.
 

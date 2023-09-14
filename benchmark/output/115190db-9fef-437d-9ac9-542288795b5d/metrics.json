@@ -1,0 +1,13 @@
+{
+    "mmocr-FCENet": {
+        "avg_per_image": 7263.067889213562,
+        "avg_per_mpx": 22686.71404299577,
+        "avg_per_text_image": 7481.026911735535,
+        "avg_per_notext_image": 7045.108866691589,
+        "avg_per_text_mpx": 23969.436047702853,
+        "avg_per_notext_mpx": 21403.992038288678,
+        "total_text_images": 10,
+        "total_notext_images": 10
+    },
+    "system_info": "{\"platform\": \"Linux\", \"platform-release\": \"5.15.0-83-generic\", \"platform-version\": \"#92-Ubuntu SMP Mon Aug 14 09:30:42 UTC 2023\", \"architecture\": \"x86_64\", \"hostname\": \"do-personal-vm-1\", \"ip-address\": \"127.0.1.1\", \"mac-address\": \"01:b2:ef:7a:d5:9f\", \"processor\": \"x86_64\", \"ram\": \"2 GB\"}"
+}

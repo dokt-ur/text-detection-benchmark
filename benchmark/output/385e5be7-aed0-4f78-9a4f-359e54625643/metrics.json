@@ -1,0 +1,13 @@
+{
+    "mmocr-DBNetR50": {
+        "avg_per_image": 12339.604592323303,
+        "avg_per_mpx": 27295.570309540843,
+        "avg_per_text_image": 10266.860103607178,
+        "avg_per_notext_image": 14412.349081039429,
+        "avg_per_text_mpx": 25713.689047935855,
+        "avg_per_notext_mpx": 28877.451571145826,
+        "total_text_images": 10,
+        "total_notext_images": 10
+    },
+    "system_info": "{\"platform\": \"Linux\", \"platform-release\": \"5.15.0-83-generic\", \"platform-version\": \"#92-Ubuntu SMP Mon Aug 14 09:30:42 UTC 2023\", \"architecture\": \"x86_64\", \"hostname\": \"do-personal-vm-1\", \"ip-address\": \"127.0.1.1\", \"mac-address\": \"01:b2:ef:7a:d5:9f\", \"processor\": \"x86_64\", \"ram\": \"2 GB\"}"
+}

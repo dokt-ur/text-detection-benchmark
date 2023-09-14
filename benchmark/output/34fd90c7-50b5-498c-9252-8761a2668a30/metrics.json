@@ -1,0 +1,13 @@
+{
+    "mmocr-TextSnake": {
+        "avg_per_image": 8686.989796161652,
+        "avg_per_mpx": 18981.324522789015,
+        "avg_per_text_image": 6532.720732688904,
+        "avg_per_notext_image": 10841.2588596344,
+        "avg_per_text_mpx": 16241.02805484744,
+        "avg_per_notext_mpx": 21721.620990730593,
+        "total_text_images": 10,
+        "total_notext_images": 10
+    },
+    "system_info": "{\"platform\": \"Linux\", \"platform-release\": \"5.15.0-83-generic\", \"platform-version\": \"#92-Ubuntu SMP Mon Aug 14 09:30:42 UTC 2023\", \"architecture\": \"x86_64\", \"hostname\": \"do-personal-vm-1\", \"ip-address\": \"127.0.1.1\", \"mac-address\": \"01:b2:ef:7a:d5:9f\", \"processor\": \"x86_64\", \"ram\": \"2 GB\"}"
+}

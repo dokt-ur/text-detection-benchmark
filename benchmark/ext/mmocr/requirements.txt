@@ -1,0 +1,11 @@
+-r requirements/build.txt
+-r requirements/mminstall.txt
+-r requirements/runtime.txt
+
+fire
+psutil
+ninja2
+tqdm
+# -r requirements/tests.txt
+# -r requirements/optional.txt
+

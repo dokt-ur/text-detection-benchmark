@@ -1,0 +1,13 @@
+{
+    "mmocr-DRRG": {
+        "avg_per_image": 4259.399425983429,
+        "avg_per_mpx": 13311.866920033477,
+        "avg_per_text_image": 4469.461488723755,
+        "avg_per_notext_image": 4049.3373632431026,
+        "avg_per_text_mpx": 14321.273865184907,
+        "avg_per_notext_mpx": 12302.459974882051,
+        "total_text_images": 10,
+        "total_notext_images": 10
+    },
+    "system_info": "{\"platform\": \"Linux\", \"platform-release\": \"5.15.0-83-generic\", \"platform-version\": \"#92-Ubuntu SMP Mon Aug 14 09:30:42 UTC 2023\", \"architecture\": \"x86_64\", \"hostname\": \"do-personal-vm-1\", \"ip-address\": \"127.0.1.1\", \"mac-address\": \"01:b2:ef:7a:d5:9f\", \"processor\": \"x86_64\", \"ram\": \"2 GB\"}"
+}

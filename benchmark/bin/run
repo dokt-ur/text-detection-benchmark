@@ -28,7 +28,35 @@ cd "$(dirname "$0")"/..
 #python3 main.py opencv_db 0.33
 #deactivate
 
-source ../envs/fast_p38/bin/activate
-/usr/bin/time -v python3 main.py fast 0.5
-/usr/bin/time -v python3 main.py fast 0.33
+#source ../envs/fast_p38/bin/activate
+#/usr/bin/time -v python3 main.py fast 0.5
+#/usr/bin/time -v python3 main.py fast 0.33
+#deactivate
+
+source ../envs/mmocr_p38/bin/activate
+#/usr/bin/time -v python3 main.py mmocr-DBNetR50 0.5
+#/usr/bin/time -v python3 main.py mmocr-DBNetR50 0.33
+
+#/usr/bin/time -v python3 main.py mmocr-DBNetR18 0.5
+#/usr/bin/time -v python3 main.py mmocr-DBNetR18 0.33
+
+#/usr/bin/time -v python3 main.py mmocr-DBNetpp 0.5
+#/usr/bin/time -v python3 main.py mmocr-DBNetpp 0.33
+
+#/usr/bin/time -v python3 main.py mmocr-TextSnake 0.5
+#/usr/bin/time -v python3 main.py mmocr-TextSnake 0.33
+
+#/usr/bin/time -v python3 main.py mmocr-PANet 0.5
+#/usr/bin/time -v python3 main.py mmocr-PANet 0.33
+
+#/usr/bin/time -v python3 main.py mmocr-PSENet 0.5
+#/usr/bin/time -v python3 main.py mmocr-PSENet 0.33
+
+#/usr/bin/time -v python3 main.py mmocr-DRRG 0.5
+#/usr/bin/time -v python3 main.py mmocr-DRRG 0.33
+
+# requires fixed input size (736, 1080)
+#/usr/bin/time -v python3 main.py mmocr-FCENet 0.5
+#/usr/bin/time -v python3 main.py mmocr-FCENet 0.33
+
 deactivate
