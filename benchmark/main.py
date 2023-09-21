@@ -90,6 +90,28 @@ def run(model_to_run, target_mpx: float = 0.5):
         metrics["PaddleOCR-v4"] = paddle_metrics
         del paddle
 
+    elif model_to_run == "paddle_det":
+        from ocr.paddle_det import PaddleDet
+        det_algorithm_ids = [
+            "DB-r50",
+            "DB-mobilenet",
+            "DB++",
+            "EAST-r50",
+            "EAST-mobilenet",
+            "FCE",
+            "PSE-r50", # failed No such file or directory: 'ppocr/postprocess/pse_postprocess/pse'
+            "PSE-mobilenet", # failed No such file or directory: 'ppocr/postprocess/pse_postprocess/pse'
+            "SAST",
+            "CT"
+        ]
+        det_algorithm_id=det_algorithm_ids[9]
+        paddle_det = PaddleDet(det_algorithm_id=det_algorithm_id)
+        paddle_metrics = paddle_det.run_benchmark(
+            text_file_list, notext_file_list, target_dir
+        )
+        metrics[f"PaddleOCR_det_{paddle_det.det_algorithm_id}"] = paddle_metrics
+        del paddle_det
+
     elif model_to_run == "deepsolo":
         from ocr.deepsolo import DeepSolo
 

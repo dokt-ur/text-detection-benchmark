@@ -87,6 +87,20 @@ sudo dpkg -i libssl1.1_1.1.1f-1ubuntu2.19_amd64.deb
 
 
 
+### PADDLE TextDetector
+
+| Model   | MPX | Performance | Max RSS (kbytes) | Output |
+| -------- | ----- | ----------- | -------- | -------- | 
+| PaddleOCR_det_DB-r50 | 0.5 | "avg_per_image": 4091.6291832923885<br>"avg_per_mpx": 8917.24931543544,<br>"avg_per_text_image": 3872.328758239746,<br>"avg_per_notext_image": 4310.929608345032,<br>"avg_per_text_mpx": 9196.332261608273,<br>"avg_per_notext_mpx": 8638.166369262608,<br>"total_text_images": 10,<br>"total_notext_images": 10 | 1113448 | output/2a8e5b6c-4603-47dc-8cb5-4d1164730819 |
+| PaddleOCR_det_DB-mobilenet | 0.5 | "avg_per_image": 1745.2028155326843<br>"avg_per_mpx": 3829.242052791521,<br>"avg_per_text_image": 1671.8154668807983,<br>"avg_per_notext_image": 1818.5901641845703,<br>"avg_per_text_mpx": 4014.492969978374,<br>"avg_per_notext_mpx": 3643.9911356046696,<br>"total_text_images": 10,<br>"total_notext_images": 10 | 930456 | output/c1b1b10c-fbc3-4599-8820-1bf12e954472 |
+| PaddleOCR_det_DB++ | 0.5 | "avg_per_image": 6006.811308860779<br>"avg_per_mpx": 13100.236068415423,<br>"avg_per_text_image": 5523.193168640137,<br>"avg_per_notext_image": 6490.429449081421,<br>"avg_per_text_mpx": 13195.19901934584,<br>"avg_per_notext_mpx": 13005.273117485007,<br>"total_text_images": 10,<br>"total_notext_images": 10 | 1225696 | output/3c4cebc7-55e0-4679-96f4-31444b02d770 |
+| PaddleOCR_det_EAST-r50 (TODO: bboxes are broken) | 0.5 | "avg_per_image": 5552.337872982025<br>"avg_per_mpx": 12095.964053660144,<br>"avg_per_text_image": 5265.955495834351,<br>"avg_per_notext_image": 5838.7202501297,<br>"avg_per_text_mpx": 12492.43969668331,<br>"avg_per_notext_mpx": 11699.488410636977,<br>"total_text_images": 10,<br>"total_notext_images": 10 | 1312220 | output/9bb797b9-e620-40e0-a891-8eb6731e266f |
+| PaddleOCR_det_EAST-mobilenet(TODO: bboxes are broken) | 0.5 | "avg_per_image": 860.6404662132263<br>"avg_per_mpx": 1867.342772824606,<br>"avg_per_text_image": 802.4690866470337,<br>"avg_per_notext_image": 918.811845779419,<br>"avg_per_text_mpx": 1893.6168364017274,<br>"avg_per_notext_mpx": 1841.068709247485,<br>"total_text_images": 10,<br>"total_notext_images": 10 | 633516 | output/f127bf65-76fd-466a-ab40-457818d06603 |
+| PaddleOCR_det_FCE | 0.5 | "avg_per_image": 11833.37037563324<br>"avg_per_mpx": 26223.423407523533,<br>"avg_per_text_image": 10325.251150131226,<br>"avg_per_notext_image": 13341.489601135254,<br>"avg_per_text_mpx": 25713.81669488632,<br>"avg_per_notext_mpx": 26733.030120160747,<br>"total_text_images": 10,<br>"total_notext_images": 10 | 1677080 | output/b2bc9f84-c06a-4c7b-b39c-ff7724ba892a |
+| PaddleOCR_det_PSE (skipped at it was extremely slow ) | 0.5 | "avg_per_image": ?<br>"avg_per_mpx": ?,<br>"avg_per_text_image": ?,<br>"avg_per_notext_image": ?,<br>"avg_per_text_mpx": ?,<br>"avg_per_notext_mpx": ?,<br>"total_text_images": 10,<br>"total_notext_images": 10 | ? | output/783ad9e6-fa94-4c1e-bed6-3e0e25dc75d9 |
+| PaddleOCR_det_CT | 0.5 | "avg_per_image": 4555.631113052368<br>"avg_per_mpx": 10174.103966559816,<br>"avg_per_text_image": 4369.980311393738,<br>"avg_per_notext_image": 4741.2819147109985,<br>"avg_per_text_mpx": 10847.331352701029,<br>"avg_per_notext_mpx": 9500.876580418602,<br>"total_text_images": 10,<br>"total_notext_images": 10 | 1721712 | output/6e58ba1d-83af-4b24-8e0f-d88d7cbf2c4f |
+
+
 
 System information:
 ```

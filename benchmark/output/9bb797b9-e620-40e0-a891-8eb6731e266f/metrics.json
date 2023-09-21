@@ -1,0 +1,13 @@
+{
+    "PaddleOCR_det_EAST-r50": {
+        "avg_per_image": 5552.337872982025,
+        "avg_per_mpx": 12095.964053660144,
+        "avg_per_text_image": 5265.955495834351,
+        "avg_per_notext_image": 5838.7202501297,
+        "avg_per_text_mpx": 12492.43969668331,
+        "avg_per_notext_mpx": 11699.488410636977,
+        "total_text_images": 10,
+        "total_notext_images": 10
+    },
+    "system_info": "{\"platform\": \"Linux\", \"platform-release\": \"5.15.0-83-generic\", \"platform-version\": \"#92-Ubuntu SMP Mon Aug 14 09:30:42 UTC 2023\", \"architecture\": \"x86_64\", \"hostname\": \"do-personal-vm-1\", \"ip-address\": \"127.0.1.1\", \"mac-address\": \"01:b2:ef:7a:d5:9f\", \"processor\": \"x86_64\", \"ram\": \"2 GB\"}"
+}

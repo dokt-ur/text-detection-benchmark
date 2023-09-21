@@ -22,6 +22,11 @@ cd "$(dirname "$0")"/..
 #/usr/bin/time -v python3 main.py east 0.33
 #deactivate
 
+source ../envs/paddle/bin/activate
+/usr/bin/time -v python3 main.py paddle_det 0.5
+#/usr/bin/time -v python3 main.py paddle_det 0.33
+deactivate
+
 #source ../envs/paddle/bin/activate
 # NOTE: time profiling does not as multiprocessing is not supported on these models
 #python3 main.py opencv_db 0.5
@@ -33,7 +38,7 @@ cd "$(dirname "$0")"/..
 #/usr/bin/time -v python3 main.py fast 0.33
 #deactivate
 
-source ../envs/mmocr_p38/bin/activate
+#source ../envs/mmocr_p38/bin/activate
 #/usr/bin/time -v python3 main.py mmocr-DBNetR50 0.5
 #/usr/bin/time -v python3 main.py mmocr-DBNetR50 0.33
 
@@ -59,4 +64,4 @@ source ../envs/mmocr_p38/bin/activate
 #/usr/bin/time -v python3 main.py mmocr-FCENet 0.5
 #/usr/bin/time -v python3 main.py mmocr-FCENet 0.33
 
-deactivate
+#deactivate
