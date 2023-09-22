@@ -9,7 +9,7 @@ from ocr import Ocr
 from tqdm import tqdm
 
 TEST_IMG_PATH = "imgs/paddleocr-test-images/254.jpg"
-
+MODELS_DIR = "models/EAST/"
 
 class East(Ocr):
     def __init__(self, target_mpx):
@@ -21,7 +21,7 @@ class East(Ocr):
         self.resize_image_height = 320  # should be multiple of 32
         self.target_mpx = target_mpx
 
-        self.model_file_path = "/root/github/text-detection-benchmark/benchmark/models/frozen_east_text_detection.pb"
+        self.model_file_path = f"{MODELS_DIR}/frozen_east_text_detection.pb"
 
         self.layer_names = [
             "feature_fusion/Conv_7/Sigmoid",  # output probabilities

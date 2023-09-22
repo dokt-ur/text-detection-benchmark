@@ -7,7 +7,9 @@ from helper import calculate_megapixels, resize_image_for_cvdnn
 from ocr import Ocr
 from tqdm import tqdm
 
+
 TEST_IMG_PATH = "imgs/paddleocr-test-images/254.jpg"
+MODELS_DIR = "models/OPENCVDB/"
 
 
 class OpencvDB(Ocr):
@@ -15,9 +17,7 @@ class OpencvDB(Ocr):
         self.target_mpx = target_mpx
         self.name = "opencv_DB"
         self.test_image_path = TEST_IMG_PATH
-        self.weights_file_path = (
-            f"/root/github/text-detection-benchmark/benchmark/models/{model_id}.onnx"
-        )
+        self.weights_file_path = (f"{MODELS_DIR}/{model_id}.onnx")
 
         self.init_model()
 
@@ -84,6 +84,8 @@ class OpencvDB(Ocr):
             self.init_model(run_dummy_inference=False)
             self.model.setInputSize(width, height)
 
+            #dummy inference
+            self.process_image(image)
             # process image
             start_time = time.time()
             bounded_image = self.process_image(image)
@@ -108,6 +110,9 @@ class OpencvDB(Ocr):
             # TODO: model inference does not work well on dynamic input shapes
             self.init_model(run_dummy_inference=False)
             self.model.setInputSize(width, height)
+
+            # dummy inference
+            self.process_image(image)
 
             # process image
             start_time = time.time()

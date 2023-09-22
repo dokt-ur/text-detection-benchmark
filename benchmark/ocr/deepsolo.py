@@ -19,12 +19,11 @@ from helper import calculate_megapixels
 from ocr import Ocr
 from tqdm import tqdm
 
-# sys.path.append("/root/github/text-detection-benchmark/benchmark/")
-# sys.path.append("/root/github/text-detection-benchmark/benchmark/ext/DeepSolo")
+# sys.path.append("ext/DeepSolo")
 
 
 TEST_IMG_PATH = (
-    "/root/github/text-detection-benchmark/benchmark/imgs/test-set/text/test-10.webp"
+    "imgs/test-set/text/test-10.webp"
 )
 mp.set_start_method("spawn", force=True)
 
@@ -98,10 +97,10 @@ class DeepSolo(Ocr):
         self.use_gpu = False
         self.test_image_path = TEST_IMG_PATH
         self.conf_threshold = 0.5
-        self.config_file = "/root/github/text-detection-benchmark/benchmark/ext/DeepSolo/configs/R_50/TotalText/finetune_150k_tt.yaml"
-        self.model_weights_path = "/root/github/text-detection-benchmark/benchmark/ext/DeepSolo/models/tt_res50_finetune_synth.pth"
-        # self.config_file = "/root/github/text-detection-benchmark/benchmark/ext/DeepSolo/configs/ViTAEv2_S/TotalText/finetune_150k_tt_mlt_13_15_textocr.yaml"
-        # self.model_weights_path =  "/root/github/text-detection-benchmark/benchmark/ext/DeepSolo/models/tt_vitaev2-s_finetune_synth-tt-mlt-13-15-textocr.pth"
+        self.config_file = "ext/DeepSolo/configs/R_50/TotalText/finetune_150k_tt.yaml"
+        self.model_weights_path = "ext/DeepSolo/models/tt_res50_finetune_synth.pth"
+        # self.config_file = "ext/DeepSolo/configs/ViTAEv2_S/TotalText/finetune_150k_tt_mlt_13_15_textocr.yaml"
+        # self.model_weights_path =  "ext/DeepSolo/models/tt_vitaev2-s_finetune_synth-tt-mlt-13-15-textocr.pth"
 
         self.init_model()
 

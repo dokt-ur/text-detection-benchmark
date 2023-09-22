@@ -1,6 +1,11 @@
 #!/bin/bash
 set -exu
 
+CWD=$(pwd)
+ENV_DIR=$CWD/envs
+MODELS_DIR=$CWD/models
+
+
 ## NOTE: swap should be enabled to install detectron2
 # Run the following commands to enable swap
 #sudo fallocate -l 5G /swapfile
@@ -9,65 +14,86 @@ set -exu
 #sudo swapon /swapfile
 
 # Verify swap memory
-#sudo swapon --show
-#free -h
+sudo swapon --show
+free -h
+
 
 # install py38
-add-apt-repository ppa:deadsnakes/ppa
-apt install python3.8 python3.8-distutils python3.8-venv python3.8-dev -y
+sudo add-apt-repository ppa:deadsnakes/ppa
+sudo apt install python3.8 python3.8-distutils python3.8-venv python3.8-dev -y
 curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 python3.8 get-pip.py
+rm get-pip.py
 
 # Paddle env
-python3.8 -m venv ../envs/paddle
-source ../envs/paddle/bin/activate
+python3.8 -m venv $ENV_DIR/paddle
+source $ENV_DIR/paddle/bin/activate
 sudo apt-get update && sudo apt-get install ffmpeg libsm6 libxext6 build-essential python3-dev gcc -y
 pip3 install -r requirements.txt
 deactivate
 
-# Deepsolo env
-python3.8 -m venv ../envs/deepsolo_py38
-source ../envs/deepsolo_py38/bin/activate
 
-cd ./ext/DeepSolo
+# Deepsolo env
+python3.8 -m venv $ENV_DIR/deepsolo_py38
+source $ENV_DIR/deepsolo_py38/bin/activate
+
+cd $CWD/ext/DeepSolo
 pip install torch==1.11.0+cpu torchvision==0.12.0+cpu -f https://download.pytorch.org/whl/torch_stable.html --no-cache-dir
 pip install -r requirements.txt
 pip install 'git+https://github.com/facebookresearch/detectron2.git@v0.4#egg=detectron2' --no-cache-dir
 # python setup.py build develop
 deactivate
 
-# FAST env
-python3.8 -m venv ../envs/fast_p38
-source ../envs/fast_p38/bin/activate
 
-cd ./ext/FAST
+# FAST env
+python3.8 -m venv $ENV_DIR/fast_p38
+source $ENV_DIR/fast_p38/bin/activate
+
+cd $CWD/ext/FAST
 
 pip install torch==1.11.0+cpu torchvision==0.12.0+cpu -f https://download.pytorch.org/whl/torch_stable.html --no-cache-dir
 pip install -r requirements.txt
 
 # compile.sh
-cd ./models/post_processing/pa/
+cd $CWD/ext/FAST/models/post_processing/pa/
 python setup.py build_ext --inplace
-cd ../pse/
+cd $CWD/ext/FAST/models/post_processing/pse/
 python setup.py build_ext --inplace
-#cd ../ccl/
+#cd $CWD/ext/FAST/models/post_processing/ccl/
 #python setup.py build_ext --inplace
-cd ../../../../../
 
 deactivate
+
 
 # mmocr env
-python3.8 -m venv ../envs/mmocr_p38
-source ../envs/mmocr_p38/bin/activate
+python3.8 -m venv $ENV_DIR/mmocr_p38
+source $ENV_DIR/mmocr_p38/bin/activate
 
-cd ./ext/mmocr
+cd $CWD/ext/mmocr
 pip install torch==1.11.0+cpu torchvision==0.12.0+cpu -f https://download.pytorch.org/whl/torch_stable.html --no-cache-dir
-
 pip install -r requirements.txt
-
 pip install -v -e .
+
+# install model weights
+mkdir -p $MODELS_DIR/MMOCR
+cd $MODELS_DIR/MMOCR
+wget -N https://download.openmmlab.com/mmocr/textdet/dbnet/dbnet_resnet18_fpnc_1200e_icdar2015/dbnet_resnet18_fpnc_1200e_icdar2015_20220825_221614-7c0e94f2.pth
+wget -N https://download.openmmlab.com/mmocr/textdet/dbnet/dbnet_resnet18_fpnc_1200e_totaltext/dbnet_resnet18_fpnc_1200e_totaltext-3ed3233c.pth
+wget -N https://download.openmmlab.com/mmocr/textdet/dbnet/dbnet_resnet50-oclip_1200e_icdar2015/dbnet_resnet50-oclip_1200e_icdar2015_20221102_115917-bde8c87a.pth
+wget -N https://download.openmmlab.com/mmocr/textdet/dbnetpp/dbnetpp_resnet50-oclip_fpnc_1200e_icdar2015/dbnetpp_resnet50-oclip_fpnc_1200e_icdar2015_20221101_124139-4ecb39ac.pth
+wget -N https://download.openmmlab.com/mmocr/textdet/drrg/drrg_resnet50_fpn-unet_1200e_ctw1500/drrg_resnet50_fpn-unet_1200e_ctw1500_20220827_105233-d5c702dd.pth
+wget -N https://download.openmmlab.com/mmocr/textdet/fcenet/fcenet_resnet50-dcnv2_fpn_1500e_ctw1500/fcenet_resnet50-dcnv2_fpn_1500e_ctw1500_20220825_221510-4d705392.pth
+wget -N https://download.openmmlab.com/mmocr/textdet/panet/panet_resnet18_fpem-ffm_600e_ctw1500/panet_resnet18_fpem-ffm_600e_ctw1500_20220826_144818-980f32d0.pth
+wget -N https://download.openmmlab.com/mmocr/textdet/psenet/psenet_resnet50-oclip_fpnf_600e_ctw1500/psenet_resnet50-oclip_fpnf_600e_ctw1500_20221101_140406-d431710d.pth
+wget -N https://download.openmmlab.com/mmocr/textdet/textsnake/textsnake_resnet50-oclip_fpn-unet_1200e_ctw1500/textsnake_resnet50-oclip_fpn-unet_1200e_ctw1500_20221101_134814-a216e5b2.pth
+
+# wget -N https://download.openmmlab.com/mmocr/textdet/dbnet/dbnet_resnet18_fpnc_100k_synthtext/dbnet_resnet18_fpnc_100k_synthtext-2e9bf392.pth
+# wget -N https://download.openmmlab.com/mmocr/textdet/dbnet/dbnet_resnet50_1200e_icdar2015/dbnet_resnet50_1200e_icdar2015_20221102_115917-54f50589.pth
+# wget -N https://download.openmmlab.com/mmocr/textdet/dbnet/dbnet_resnet50-dcnv2_fpnc_1200e_icdar2015/dbnet_resnet50-dcnv2_fpnc_1200e_icdar2015_20220828_124917-452c443c.pth
+# wget -N https://download.openmmlab.com/mmocr/textdet/dbnetpp/dbnetpp_resnet50-dcnv2_fpnc_100k_synthtext/dbnetpp_resnet50-dcnv2_fpnc_100k_synthtext-00f0a80b.pth
+# wget -N https://download.openmmlab.com/mmocr/textdet/dbnetpp/dbnetpp_resnet50_fpnc_1200e_icdar2015/dbnetpp_resnet50_fpnc_1200e_icdar2015_20221025_185550-013730aa.pth
+# wget -N https://download.openmmlab.com/mmocr/textdet/dbnetpp/dbnetpp_resnet50-dcnv2_fpnc_1200e_icdar2015/dbnetpp_resnet50-dcnv2_fpnc_1200e_icdar2015_20220829_230108-f289bd20.pth
 
 deactivate
 
-
-
+cd $CWD

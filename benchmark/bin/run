@@ -1,67 +1,70 @@
 #!/bin/bash
 set -exu
 
-cd "$(dirname "$0")"/..
+CWD=$(pwd)
+ENV_DIR=$CWD/envs
 
-#source ../envs/paddle/bin/activate
-#/usr/bin/time -v python3 main.py paddle 0.5
-#/usr/bin/time -v python3 main.py paddle 0.33
+source $ENV_DIR/paddle/bin/activate
+/usr/bin/time -v python3 main.py paddle 0.5
+/usr/bin/time -v python3 main.py paddle 0.33
+deactivate
+
+# TODO: TEST
+#source $ENV_DIR/paddle/bin/activate
+#/usr/bin/time -v python3 main.py paddle_det 0.5
+#/usr/bin/time -v python3 main.py paddle_det 0.33
 #deactivate
 
 
 # CAUTION: download model weights to "ext/DeepSolo/models/"" directory
 # e.g. ext/DeepSolo/models/tt_vitaev2-s_finetune_synth-tt-mlt-13-15-textocr.pth
-
-#source ../envs/deepsolo_py38/bin/activate
+# TODO: fix adet
+#source $ENV_DIR/deepsolo_py38/bin/activate
 #/usr/bin/time -v python3 main.py deepsolo
 #deactivate
 
-
-#source ../envs/paddle/bin/activate
-#/usr/bin/time -v python3 main.py east 0.5
-#/usr/bin/time -v python3 main.py east 0.33
-#deactivate
-
-source ../envs/paddle/bin/activate
-/usr/bin/time -v python3 main.py paddle_det 0.5
-#/usr/bin/time -v python3 main.py paddle_det 0.33
+source $ENV_DIR/paddle/bin/activate
+# TODO: bulk inference needs to be improved
+/usr/bin/time -v python3 main.py east 0.5
+/usr/bin/time -v python3 main.py east 0.33
 deactivate
 
-#source ../envs/paddle/bin/activate
-# NOTE: time profiling does not as multiprocessing is not supported on these models
-#python3 main.py opencv_db 0.5
-#python3 main.py opencv_db 0.33
-#deactivate
+source $ENV_DIR/paddle/bin/activate
+# # NOTE: time profiling is not supported on these models need multiprocessing.
+python3 main.py opencv_db 0.5
+python3 main.py opencv_db 0.33
+deactivate
 
-#source ../envs/fast_p38/bin/activate
-#/usr/bin/time -v python3 main.py fast 0.5
-#/usr/bin/time -v python3 main.py fast 0.33
-#deactivate
+source $ENV_DIR/fast_p38/bin/activate
+/usr/bin/time -v python3 main.py fast 0.5
+/usr/bin/time -v python3 main.py fast 0.33
+deactivate
 
-#source ../envs/mmocr_p38/bin/activate
-#/usr/bin/time -v python3 main.py mmocr-DBNetR50 0.5
-#/usr/bin/time -v python3 main.py mmocr-DBNetR50 0.33
+source $ENV_DIR/mmocr_p38/bin/activate
 
-#/usr/bin/time -v python3 main.py mmocr-DBNetR18 0.5
-#/usr/bin/time -v python3 main.py mmocr-DBNetR18 0.33
+# /usr/bin/time -v python3 main.py mmocr-DBNetR50 0.5
+# /usr/bin/time -v python3 main.py mmocr-DBNetR50 0.33
 
-#/usr/bin/time -v python3 main.py mmocr-DBNetpp 0.5
-#/usr/bin/time -v python3 main.py mmocr-DBNetpp 0.33
+# /usr/bin/time -v python3 main.py mmocr-DBNetR18 0.5
+/usr/bin/time -v python3 main.py mmocr-DBNetR18 0.33
 
-#/usr/bin/time -v python3 main.py mmocr-TextSnake 0.5
-#/usr/bin/time -v python3 main.py mmocr-TextSnake 0.33
+# /usr/bin/time -v python3 main.py mmocr-DBNetpp 0.5
+# /usr/bin/time -v python3 main.py mmocr-DBNetpp 0.33
 
-#/usr/bin/time -v python3 main.py mmocr-PANet 0.5
-#/usr/bin/time -v python3 main.py mmocr-PANet 0.33
+# /usr/bin/time -v python3 main.py mmocr-TextSnake 0.5
+# /usr/bin/time -v python3 main.py mmocr-TextSnake 0.33
 
-#/usr/bin/time -v python3 main.py mmocr-PSENet 0.5
-#/usr/bin/time -v python3 main.py mmocr-PSENet 0.33
+# /usr/bin/time -v python3 main.py mmocr-PANet 0.5
+# /usr/bin/time -v python3 main.py mmocr-PANet 0.33
 
-#/usr/bin/time -v python3 main.py mmocr-DRRG 0.5
-#/usr/bin/time -v python3 main.py mmocr-DRRG 0.33
+# /usr/bin/time -v python3 main.py mmocr-PSENet 0.5
+# /usr/bin/time -v python3 main.py mmocr-PSENet 0.33
 
-# requires fixed input size (736, 1080)
-#/usr/bin/time -v python3 main.py mmocr-FCENet 0.5
-#/usr/bin/time -v python3 main.py mmocr-FCENet 0.33
+# /usr/bin/time -v python3 main.py mmocr-DRRG 0.5
+# /usr/bin/time -v python3 main.py mmocr-DRRG 0.33
 
-#deactivate
+# # requires fixed input size (736, 1080)
+# /usr/bin/time -v python3 main.py mmocr-FCENet 0.5
+# /usr/bin/time -v python3 main.py mmocr-FCENet 0.33
+
+deactivate

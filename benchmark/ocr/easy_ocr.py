@@ -25,8 +25,7 @@ class EasyOcr(Ocr):
     def init_model(
         self,
     ):
-        # this needs to run only once to load the model into memory
-        path = "/root/.EasyOCR/model/"
+        path = "models/EASYOCR/"
 
         self.model = easyocr.Reader(
             [self.lang],

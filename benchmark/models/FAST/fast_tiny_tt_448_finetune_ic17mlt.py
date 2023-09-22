@@ -2,15 +2,15 @@ model = dict(
     type="FAST",
     backbone=dict(
         type="fast_backbone",
-        config="/root/github/text-detection-benchmark/benchmark/ext/FAST/config/fast/nas-configs/fast_tiny.config",
+        config="./ext/FAST/config/fast/nas-configs/fast_tiny.config",
     ),
     neck=dict(
         type="fast_neck",
-        config="/root/github/text-detection-benchmark/benchmark/ext/FAST/config/fast/nas-configs/fast_tiny.config",
+        config="./ext/FAST/config/fast/nas-configs/fast_tiny.config",
     ),
     detection_head=dict(
         type="fast_head",
-        config="/root/github/text-detection-benchmark/benchmark/ext/FAST/config/fast/nas-configs/fast_tiny.config",
+        config="./ext/FAST/config/fast/nas-configs/fast_tiny.config",
         pooling_size=5,
         dropout_ratio=0.1,
         loss_text=dict(type="DiceLoss", loss_weight=0.5),

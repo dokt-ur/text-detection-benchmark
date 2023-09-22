@@ -11,7 +11,8 @@ from PIL import Image, ImageFilter
 from torchvision import transforms
 from tqdm import tqdm
 
-sys.path.append("/root/github/text-detection-benchmark/benchmark/ext/FAST")
+FAST_BASE_DIR = "ext/FAST"
+sys.path.append(FAST_BASE_DIR)
 from helper import calculate_megapixels
 from models import build_model
 from models.utils import fuse_module, rep_model_convert
@@ -20,8 +21,10 @@ from ocr import Ocr
 warnings.filterwarnings("ignore")
 
 TEST_IMG_PATH = (
-    "/root/github/text-detection-benchmark/benchmark/imgs/test-set/text/test-10.webp"
+    "imgs/test-set/text/test-10.webp"
 )
+
+MODELS_DIR = "models/FAST"
 
 
 class Fast(Ocr):
@@ -38,8 +41,8 @@ class Fast(Ocr):
         self.worker = 4
         self.use_ema = True
 
-        self.config_file_path = "/root/github/text-detection-benchmark/benchmark/models/FAST/fast_tiny_tt_448_finetune_ic17mlt.py"
-        self.model_weights_path = "/root/github/text-detection-benchmark/benchmark/models/FAST/fast_tiny_tt_448_finetune_ic17mlt.pth"
+        self.config_file_path = f"{MODELS_DIR}/fast_tiny_tt_448_finetune_ic17mlt.py"
+        self.model_weights_path = f"{MODELS_DIR}/fast_tiny_tt_448_finetune_ic17mlt.pth"
 
         self.init_model()
 

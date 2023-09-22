@@ -16,11 +16,11 @@ from ocr import Ocr
 warnings.filterwarnings("ignore")
 
 TEST_IMG_PATH = (
-    "/root/github/text-detection-benchmark/benchmark/imgs/test-set/text/test-10.webp"
+    "imgs/test-set/text/test-10.webp"
 )
 
-CONFIGS_BASE_DIR = "/root/github/text-detection-benchmark/benchmark/ext/mmocr/configs/"
-MODEL_WEIGHTS_BASE_DIR = "/root/github/text-detection-benchmark/benchmark/models/MMOCR/"
+CONFIGS_BASE_DIR = "ext/mmocr/configs/"
+MODEL_WEIGHTS_BASE_DIR = "models/MMOCR/"
 
 # NOTE: models should be downloaded to base directory : https://mmocr.readthedocs.io/en/dev-1.x/modelzoo.html
 

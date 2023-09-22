@@ -11,18 +11,19 @@ from tqdm import tqdm
 # ref : https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.0/doc/doc_ch/inference.md
 TEST_IMG_PATH = "imgs/paddleocr-test-images/254.jpg"
 
+MODELS_DIR = "models/PADDLE/det"
 
 class Paddle(Ocr):
-    def __init__(self, paddle_version: str = "v4"):
+    def __init__(self, paddle_version: str = "v3-slim"):
         self.paddle_version = paddle_version
 
         self.name = "paddle"
         self.use_gpu = False
         self.use_angle_classifier = False
         self.lang = "en"
-        self.custom_model_dir = "models/"
+        self.use_onnx = False
         self.test_image_path = TEST_IMG_PATH
-        self.det_model_dir = "models/det/"
+        self.det_model_dir = None # MODELS_DIR
         self.max_batch_size = 30
 
         self.init_model()
@@ -33,29 +34,32 @@ class Paddle(Ocr):
         self.ocr_version = None
         if self.paddle_version == "v1":
             self.ocr_version = "PP-OCR"
-            self.det_model_dir = "models/det/en_ppocr_mobile_v2.0_det_infer"
+            self.det_model_dir = f"{MODELS_DIR}/en_ppocr_mobile_v2.0_det_infer"
         elif self.paddle_version == "v2":
             self.ocr_version = "PP-OCRv2"
-            self.det_model_dir = "models/det/en_PP-OCRv2_det_infer"
+            self.det_model_dir = f"{MODELS_DIR}/en_PP-OCRv2_det_infer"
         elif self.paddle_version == "v3":
             self.ocr_version = "PP-OCRv3"
-            self.det_model_dir = "models/det/en_PP-OCRv3_det_infer"
+            self.det_model_dir = f"{MODELS_DIR}/en_PP-OCRv3_det_infer"
         elif self.paddle_version == "v4":
             self.ocr_version = "PP-OCRv4"
-            self.det_model_dir = "models/det/en_PP-OCRv4_det_infer"
+            self.det_model_dir = f"{MODELS_DIR}/en_PP-OCRv4_det_infer"
         elif self.paddle_version == "v3-slim":
             self.ocr_version = "PP-OCRv3"
-            self.det_model_dir = "models/det/en_PP-OCRv3_det_slim_infer"
+            self.det_model_dir = f"{MODELS_DIR}/en_PP-OCRv3_det_slim_infer"
             self.max_batch_size = 5  # otherwise it does not fit into 2GB memory.
         elif self.paddle_version == "v3-ml-slim":
-            self.det_model_dir = "models/det/ml_PP-OCRv3_det_slim_infer"
+            self.det_model_dir = f"{MODELS_DIR}/ml_PP-OCRv3_det_slim_infer"
+        
 
         self.model = PaddleOCR(
             # ocr_version=self.ocr_version,
+            det=True,
             det_model_dir=self.det_model_dir,
             rec=False,
             use_angle_cls=self.use_angle_classifier,
             use_gpu=self.use_gpu,
+            use_onnx=self.use_onnx,
             lang=self.lang,
             table=False,
             max_batch_size=self.max_batch_size,

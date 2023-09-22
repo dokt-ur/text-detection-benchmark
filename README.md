@@ -25,14 +25,31 @@ cd benchmark
 
 _If you receive the following error message:_
 ```
-File "/root/github/text-detection-benchmark/envs/paddle/lib/python3.8/site-packages/paddle/fluid/core.py", line 269, in <module>
+File "/home/testuser/text-detection-benchmark/envs/paddle/lib/python3.8/site-packages/paddle/fluid/core.py", line 269, in <module>
     from . import libpaddle
 ImportError: libssl.so.1.1: cannot open shared object file: No such file or directory
 ```
 ```
-# run these commands to fix SSL issues:
-wget http://nz2.archive.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1f-1ubuntu2.19_amd64.deb
-sudo dpkg -i libssl1.1_1.1.1f-1ubuntu2.19_amd64.deb
+# run these commands to fix SSL issues (manually):
+
+mkdir $HOME/opt && cd $HOME/opt
+# Download a supported openssl version. e.g., openssl-1.1.1o.tar.gz or openssl-1.1.1t.tar.gz
+wget https://www.openssl.org/source/openssl-1.1.1o.tar.gz
+tar -zxvf openssl-1.1.1o.tar.gz
+cd openssl-1.1.1o
+./config && make && make test  
+
+# this command might fail at the end, but no worries, run the following commands.
+
+mkdir $HOME/opt/lib
+mv $HOME/opt/openssl-1.1.1o/libcrypto.so.1.1 $HOME/opt/lib/
+mv $HOME/opt/openssl-1.1.1o/libssl.so.1.1 $HOME/opt/lib/
+
+export LD_LIBRARY_PATH=$HOME/opt/lib:$LD_LIBRARY_PATH
+
+# or alternatively:
+#wget http://nz2.archive.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1f-1ubuntu2.19_amd64.deb
+#sudo dpkg -i libssl1.1_1.1.1f-1ubuntu2.19_amd64.deb
 ```
 
 <br/>
