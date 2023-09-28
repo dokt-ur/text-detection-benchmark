@@ -57,6 +57,24 @@ echo "export LD_LIBRARY_PATH=$HOME/opt/lib:$LD_LIBRARY_PATH" >> $HOME/.bashrc
 #sudo dpkg -i libssl1.1_1.1.1f-1ubuntu2.19_amd64.deb
 ```
 
+## IMPORTANT NOTE for paddle-onnx:
+
+Edit the file
+
+`./envs/paddle/lib/python3.8/site-packages/paddleocr/tools/infer/utility.py`
+
+replace the line 
+`sess = ort.InferenceSession(model_file_path)`
+with
+`sess = ort.InferenceSession(model_file_path, providers=['CPUExecutionProvider'])`
+
+this will solve the following error:
+
+```
+ValueError: This ORT build has ['AzureExecutionProvider', 'CPUExecutionProvider'] enabled. Since ORT 1.9, you are required to explicitly set the providers parameter when instantiating InferenceSession. For example, onnxruntime.InferenceSession(..., providers=['AzureExecutionProvider', 'CPUExecutionProvider'], ...)
+```
+
+
 <br/>
 <hr/>
 <br/>
