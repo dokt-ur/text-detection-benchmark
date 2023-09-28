@@ -1,15 +1,20 @@
 import os
 import time
+from tqdm import tqdm
 
 import cv2
 import numpy as np
-from helper import calculate_megapixels, resize_image_for_cvdnn
 from imutils.object_detection import non_max_suppression
+
+from helper import calculate_megapixels, resize_image_for_cvdnn
 from ocr import Ocr
-from tqdm import tqdm
+
 
 TEST_IMG_PATH = "imgs/paddleocr-test-images/254.jpg"
 MODELS_DIR = "models/EAST/"
+
+cv2.setNumThreads(1)
+
 
 class East(Ocr):
     def __init__(self, target_mpx):

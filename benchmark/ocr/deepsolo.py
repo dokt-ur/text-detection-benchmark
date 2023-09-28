@@ -2,11 +2,12 @@ import multiprocessing as mp
 import os
 import sys
 import time
+from tqdm import tqdm
 
 import cv2
+import torch
 import detectron2.data.transforms as T
 import numpy as np
-import torch
 from adet.config import get_cfg
 from adet.modeling import vitae_v2
 from detectron2.checkpoint import DetectionCheckpointer
@@ -17,10 +18,11 @@ from detectron2.engine.defaults import DefaultPredictor
 from detectron2.modeling import build_model
 from helper import calculate_megapixels
 from ocr import Ocr
-from tqdm import tqdm
+
+
 
 # sys.path.append("ext/DeepSolo")
-
+torch.set_num_threads(1)
 
 TEST_IMG_PATH = (
     "imgs/test-set/text/test-10.webp"

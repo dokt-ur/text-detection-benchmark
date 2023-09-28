@@ -18,6 +18,10 @@ from models import build_model
 from models.utils import fuse_module, rep_model_convert
 from ocr import Ocr
 
+
+torch.set_num_threads(1)
+
+
 warnings.filterwarnings("ignore")
 
 TEST_IMG_PATH = (

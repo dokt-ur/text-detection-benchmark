@@ -1,30 +1,36 @@
 import os
 import time
+from tqdm import tqdm
 
 import cv2
 import numpy as np
+
 from helper import calculate_megapixels
 from ocr import Ocr
 from paddleocr import PaddleOCR
-from tqdm import tqdm
+
 
 # ref : https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.0/doc/doc_ch/inference.md
 TEST_IMG_PATH = "imgs/paddleocr-test-images/254.jpg"
-
 MODELS_DIR = "models/PADDLE/det"
+ONNX_MODELS_DIR = "models/PADDLE/det_onnx"
+
 
 class Paddle(Ocr):
-    def __init__(self, paddle_version: str = "v3-slim"):
+    def __init__(self, paddle_version: str = "v3", use_onnx: bool = False):
         self.paddle_version = paddle_version
 
         self.name = "paddle"
         self.use_gpu = False
         self.use_angle_classifier = False
         self.lang = "en"
-        self.use_onnx = False
+        self.use_onnx = use_onnx
         self.test_image_path = TEST_IMG_PATH
         self.det_model_dir = None # MODELS_DIR
         self.max_batch_size = 30
+        self.enable_mkldnn = True
+        self.cpu_threads = 1
+        self.total_process_num = 1
 
         self.init_model()
 
@@ -34,22 +40,45 @@ class Paddle(Ocr):
         self.ocr_version = None
         if self.paddle_version == "v1":
             self.ocr_version = "PP-OCR"
-            self.det_model_dir = f"{MODELS_DIR}/en_ppocr_mobile_v2.0_det_infer"
+            if self.use_onnx:
+                self.det_model_dir = f"{ONNX_MODELS_DIR}/en_PP-OCR_det.onnx"
+            else:
+                self.det_model_dir = f"{MODELS_DIR}/en_PP-OCR_det_infer"
         elif self.paddle_version == "v2":
             self.ocr_version = "PP-OCRv2"
-            self.det_model_dir = f"{MODELS_DIR}/en_PP-OCRv2_det_infer"
+            if self.use_onnx:
+                self.det_model_dir = f"{ONNX_MODELS_DIR}/en_PP-OCRv2_det.onnx"
+            else:
+                self.det_model_dir = f"{MODELS_DIR}/en_PP-OCRv2_det_infer"
         elif self.paddle_version == "v3":
             self.ocr_version = "PP-OCRv3"
-            self.det_model_dir = f"{MODELS_DIR}/en_PP-OCRv3_det_infer"
+            if self.use_onnx:
+                self.det_model_dir = f"{ONNX_MODELS_DIR}/en_PP-OCRv3_det.onnx"
+            else:
+                self.det_model_dir = f"{MODELS_DIR}/en_PP-OCRv3_det_infer"
         elif self.paddle_version == "v4":
             self.ocr_version = "PP-OCRv4"
-            self.det_model_dir = f"{MODELS_DIR}/en_PP-OCRv4_det_infer"
+            if self.use_onnx:
+                self.det_model_dir = f"{ONNX_MODELS_DIR}/en_PP-OCRv4_det.onnx"
+            else:
+                self.det_model_dir = f"{MODELS_DIR}/en_PP-OCRv4_det_infer"
         elif self.paddle_version == "v3-slim":
             self.ocr_version = "PP-OCRv3"
-            self.det_model_dir = f"{MODELS_DIR}/en_PP-OCRv3_det_slim_infer"
-            self.max_batch_size = 5  # otherwise it does not fit into 2GB memory.
+            if self.use_onnx:
+                raise Exception("not supported!")
+            else:
+                self.det_model_dir = f"{MODELS_DIR}/en_PP-OCRv3_det_slim_infer"
+                self.max_batch_size = 5  # otherwise it does not fit into 2GB memory.
         elif self.paddle_version == "v3-ml-slim":
-            self.det_model_dir = f"{MODELS_DIR}/ml_PP-OCRv3_det_slim_infer"
+            if self.use_onnx:
+                raise Exception("not supported!")
+            else:
+                self.det_model_dir = f"{MODELS_DIR}/ml_PP-OCRv3_det_slim_infer"
+        elif self.paddle_version == "v2-mobile":
+            if self.use_onnx:
+                self.det_model_dir = f"{ONNX_MODELS_DIR}/en_ppocr_mobile_v2_det.onnx"
+            else:
+                self.det_model_dir = f"{MODELS_DIR}/en_ppocr_mobile_v2.0_det_infer"
         
 
         self.model = PaddleOCR(
@@ -57,6 +86,7 @@ class Paddle(Ocr):
             det=True,
             det_model_dir=self.det_model_dir,
             rec=False,
+            rec_model_dir=self.det_model_dir, # TODO: strange but it is needed.
             use_angle_cls=self.use_angle_classifier,
             use_gpu=self.use_gpu,
             use_onnx=self.use_onnx,
@@ -64,6 +94,9 @@ class Paddle(Ocr):
             table=False,
             max_batch_size=self.max_batch_size,
             show_log=False,
+            enable_mkldnn=self.enable_mkldnn,
+            cpu_threads=self.cpu_threads,
+            total_process_num=self.total_process_num,
         )
 
         # to eliminate cold start issue, run dummy inferences
@@ -87,8 +120,10 @@ class Paddle(Ocr):
 
     def run_benchmark(self, text_file_list, notext_file_list, target_dir):
         """Run paddle benchmark."""
-
+        
         output_dir = f"{target_dir}/{self.name}_{self.paddle_version}/"
+        if self.use_onnx:
+            output_dir = f"{target_dir}/{self.name}_{self.paddle_version}_onnx/"
         if not os.path.exists(output_dir):
             os.makedirs(output_dir)
 

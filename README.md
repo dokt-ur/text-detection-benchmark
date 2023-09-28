@@ -47,6 +47,11 @@ mv $HOME/opt/openssl-1.1.1o/libssl.so.1.1 $HOME/opt/lib/
 
 export LD_LIBRARY_PATH=$HOME/opt/lib:$LD_LIBRARY_PATH
 
+
+# USE WITH CAUTION
+echo "export LD_LIBRARY_PATH=$HOME/opt/lib:$LD_LIBRARY_PATH" >> $HOME/.bashrc
+
+
 # or alternatively:
 #wget http://nz2.archive.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1f-1ubuntu2.19_amd64.deb
 #sudo dpkg -i libssl1.1_1.1.1f-1ubuntu2.19_amd64.deb

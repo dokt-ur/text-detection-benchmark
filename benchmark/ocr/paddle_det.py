@@ -22,13 +22,17 @@ class PaddleDet(Ocr):
         self.paddle_version = "v3"
         self.name = "paddle"
         self.use_gpu = False
+        self.use_onnx = True
         self.lang = "en"
         self.custom_model_dir = "models/"
         self.test_image_path = TEST_IMG_PATH
         self.det_model_dir = "models/det/"
         self.det_box_type = "quad"
         self.max_batch_size = 30
-
+        self.enable_mkldnn = True
+        self.cpu_threads = 1
+        self.total_process_num = 1,
+        self.precision = "int8"
         self.init_model()
 
     def init_model(
@@ -39,34 +43,34 @@ class PaddleDet(Ocr):
         if self.paddle_version == "v3":
             self.ocr_version = "PP-OCRv3"
             if self.det_algorithm_id == "DB-r50":
-                self.det_model_dir = "models/PADDLE/DB/det_r50_vd_db_v2_infer"
+                self.det_model_dir = "models/PADDLE_DET/DB/det_r50_vd_db_v2_infer"
                 self.det_algorithm = "DB"
             elif self.det_algorithm_id == "DB-mobilenet":
-                self.det_model_dir = "models/PADDLE/DB/det_mv3_vd_db_v2_infer"
+                self.det_model_dir = "models/PADDLE_DET/DB/det_mv3_vd_db_v2_infer"
                 self.det_algorithm = "DB"
             elif self.det_algorithm_id == "DB++":
-                self.det_model_dir = "models/PADDLE/DBpp/det_r50_dbpp_td_tr_infer"
+                self.det_model_dir = "models/PADDLE_DET/DBpp/det_r50_dbpp_td_tr_infer"
                 self.det_algorithm = "DB++"
             elif self.det_algorithm_id == "EAST-r50":
-                self.det_model_dir = "models/PADDLE/EAST/r50/det_r50_vd_east_v2.0_infer"
+                self.det_model_dir = "models/PADDLE_DET/EAST/r50/det_r50_vd_east_v2.0_infer"
                 self.det_algorithm = "DB++"
             elif self.det_algorithm_id == "EAST-mobilenet":
-                self.det_model_dir = "models/PADDLE/EAST/mobilenet/det_mv3_east_v2.0_infer"
+                self.det_model_dir = "models/PADDLE_DET/EAST/mobilenet/det_mv3_east_v2.0_infer"
                 self.det_algorithm = "EAST"
             elif self.det_algorithm_id == "FCE":
-                self.det_model_dir = "models/PADDLE/FCE/det_r50_dcn_fce_ctw_v2.0_infer"
+                self.det_model_dir = "models/PADDLE_DET/FCE/det_r50_dcn_fce_ctw_v2.0_infer"
                 self.det_algorithm = "FCE"
             elif self.det_algorithm_id == "PSE-r50":
-                self.det_model_dir = "models/PADDLE/PSE/r50/det_r50_vd_pse_v2.0_infer"
+                self.det_model_dir = "models/PADDLE_DET/PSE/r50/det_r50_vd_pse_v2.0_infer"
                 self.det_algorithm = "PSE"
             elif self.det_algorithm_id == "PSE-mobilenet":
-                self.det_model_dir = "models/PADDLE/PSE/mobilenet/det_mv3_pse_v2.0_infer"
+                self.det_model_dir = "models/PADDLE_DET/PSE/mobilenet/det_mv3_pse_v2.0_infer"
                 self.det_algorithm = "PSE"
             elif self.det_algorithm_id == "SAST":
-                self.det_model_dir = "models/PADDLE/SAST/det_r50_vd_sast_icdar15_v2.0_infer"
+                self.det_model_dir = "models/PADDLE_DET/SAST/det_r50_vd_sast_icdar15_v2.0_infer"
                 self.det_algorithm = "SAST"
             elif self.det_algorithm_id == "CT":
-                self.det_model_dir = "models/PADDLE/CT/det_r18_ct_infer"
+                self.det_model_dir = "models/PADDLE_DET/CT/det_r18_ct_infer"
                 self.det_algorithm = "CT"
 
         class CustomConfig:
@@ -78,14 +82,18 @@ class PaddleDet(Ocr):
             det_model_dir=self.det_model_dir,
             use_gpu=self.use_gpu,
             use_npu=False,
+            use_tensorrt=False,
             use_xpu=False,
-            enable_mkldnn=False,
             det_box_type=self.det_box_type,
             lang=self.lang,
-            use_onnx=False,
+            use_onnx=self.use_onnx,
             det_limit_side_len = 960,
             det_limit_type = "max",
             benchmark=False,
+            enable_mkldnn=self.enable_mkldnn,
+            cpu_threads=self.cpu_threads,
+            total_process_num=self.total_process_num,
+            precision=self.precision,
             # DB
             det_db_thresh = 0.3,
             det_db_box_thresh =0.6,

@@ -3,13 +3,35 @@ import time
 
 import cv2
 import numpy as np
-from helper import calculate_megapixels
+import tensorflow as tf
 from keras_ocr import tools
 from keras_ocr.detection import Detector
+from tensorflow.keras import backend as K
+
+
+from helper import calculate_megapixels
 from ocr import Ocr
+
 
 TEST_IMG_PATH = "imgs/paddleocr-test-images/254.jpg"
 
+
+NUM_CORES = 1
+NUM_CPU = 1
+NUM_GPU = 0
+
+config = tf.ConfigProto(
+    intra_op_parallelism_threads=NUM_CORES,
+    inter_op_parallelism_threads=NUM_CORES,
+    allow_soft_placement=True,
+    device_count = {
+        'CPU' : NUM_CPU,
+        'GPU' : NUM_GPU
+    }
+)
+
+session = tf.Session(config=config)
+K.set_session(session)
 
 class KerasOcr(Ocr):
     def __init__(

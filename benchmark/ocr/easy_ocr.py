@@ -10,6 +10,8 @@ from tqdm import tqdm
 
 TEST_IMG_PATH = "imgs/paddleocr-test-images/254.jpg"
 
+cv2.setNumThreads(1)
+
 
 class EasyOcr(Ocr):
     def __init__(

@@ -6,6 +6,7 @@ from uuid import uuid4
 import fire
 from helper import get_system_info
 
+
 OUTPUT_DIR = "output"
 
 
@@ -21,7 +22,7 @@ def run(model_to_run, target_mpx: float = 0.5):
     text_dir = "imgs/test-set/text/resized/0.5"
     notext_dir = "imgs/test-set/notext/resized/0.5"
     if target_mpx == 0.33:
-        # NOTE: Ensure that you can the following commands first to prepare the dataset
+        # NOTE: Ensure that you run the following commands first to prepare the dataset
         # `python3 resize_images.py imgs/test-set/text 0.33`
         # `python3 resize_images.py imgs/test-set/notext 0.33`
         text_dir = "imgs/test-set/text/resized/0.33"
@@ -33,6 +34,7 @@ def run(model_to_run, target_mpx: float = 0.5):
     if not os.path.exists(target_dir):
         os.makedirs(target_dir)
 
+
     # images with text
     text_file_list = glob(f"{text_dir}/*.jpg")
     if not text_file_list:
@@ -43,8 +45,8 @@ def run(model_to_run, target_mpx: float = 0.5):
     if not notext_file_list:
         print(f"no files found in {notext_dir}")
 
-    metrics = {}
 
+    metrics = {}
     if model_to_run == "paddle":
         from ocr.paddle import Paddle
 
@@ -90,6 +92,52 @@ def run(model_to_run, target_mpx: float = 0.5):
         metrics["PaddleOCR-v4"] = paddle_metrics
         del paddle
 
+        paddle = Paddle(paddle_version="v2-mobile")
+        paddle_metrics = paddle.run_benchmark(
+            text_file_list, notext_file_list, target_dir
+        )
+        metrics["PaddleOCR-v2-mobile"] = paddle_metrics
+        del paddle
+
+
+    elif model_to_run == "paddle_onnx":
+        from ocr.paddle import Paddle
+
+        paddle = Paddle(paddle_version="v1", use_onnx=True)
+        paddle_metrics = paddle.run_benchmark(
+            text_file_list, notext_file_list, target_dir
+        )
+        metrics["PaddleOCR-v1-onnx"] = paddle_metrics
+        del paddle
+
+        paddle = Paddle(paddle_version="v2", use_onnx=True)
+        paddle_metrics = paddle.run_benchmark(
+            text_file_list, notext_file_list, target_dir
+        )
+        metrics["PaddleOCR-v2-onnx"] = paddle_metrics
+        del paddle
+
+        paddle = Paddle(paddle_version="v3", use_onnx=True)
+        paddle_metrics = paddle.run_benchmark(
+            text_file_list, notext_file_list, target_dir
+        )
+        metrics["PaddleOCR-v3-onnx"] = paddle_metrics
+        del paddle
+
+        paddle = Paddle(paddle_version="v4", use_onnx=True)
+        paddle_metrics = paddle.run_benchmark(
+            text_file_list, notext_file_list, target_dir
+        )
+        metrics["PaddleOCR-v4-onnx"] = paddle_metrics
+        del paddle
+
+        paddle = Paddle(paddle_version="v2-mobile", use_onnx=True)
+        paddle_metrics = paddle.run_benchmark(
+            text_file_list, notext_file_list, target_dir
+        )
+        metrics["PaddleOCR-v2-mobile-onnx"] = paddle_metrics
+        del paddle
+
     elif model_to_run == "paddle_det":
         from ocr.paddle_det import PaddleDet
         det_algorithm_ids = [
@@ -104,13 +152,13 @@ def run(model_to_run, target_mpx: float = 0.5):
             "SAST",
             "CT"
         ]
-        det_algorithm_id=det_algorithm_ids[9]
-        paddle_det = PaddleDet(det_algorithm_id=det_algorithm_id)
-        paddle_metrics = paddle_det.run_benchmark(
-            text_file_list, notext_file_list, target_dir
-        )
-        metrics[f"PaddleOCR_det_{paddle_det.det_algorithm_id}"] = paddle_metrics
-        del paddle_det
+        for det_algorithm_id in det_algorithm_ids:
+            paddle_det = PaddleDet(det_algorithm_id=det_algorithm_id)
+            paddle_metrics = paddle_det.run_benchmark(
+                text_file_list, notext_file_list, target_dir
+            )
+            metrics[f"PaddleOCR_det_{paddle_det.det_algorithm_id}"] = paddle_metrics
+            del paddle_det
 
     elif model_to_run == "deepsolo":
         from ocr.deepsolo import DeepSolo

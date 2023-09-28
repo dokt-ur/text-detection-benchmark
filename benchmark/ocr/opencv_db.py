@@ -8,6 +8,9 @@ from ocr import Ocr
 from tqdm import tqdm
 
 
+cv2.setNumThreads(1)
+
+
 TEST_IMG_PATH = "imgs/paddleocr-test-images/254.jpg"
 MODELS_DIR = "models/OPENCVDB/"
 
