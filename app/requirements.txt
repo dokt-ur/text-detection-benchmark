@@ -1,0 +1,8 @@
+opencv-python==4.5.5.64
+numpy==1.23
+tqdm
+six
+Pillow
+pyclipper
+shapely
+onnxruntime

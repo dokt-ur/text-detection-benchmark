@@ -1,0 +1,14 @@
+#!/bin/bash
+set -exu
+
+CWD=$(pwd)
+ENV_DIR=$CWD/envs
+
+source $ENV_DIR/paddle_onnx/bin/activate
+
+echo "running paddle onnx"
+python3 test.py
+
+
+deactivate
+

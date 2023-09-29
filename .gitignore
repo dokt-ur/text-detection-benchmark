@@ -173,3 +173,5 @@ benchmark/ext/FAST/test_all.py
 benchmark/ext/FAST/test.py
 benchmark/ext/FAST/test_cpu.py
 benchmark/models/MMOCR
+app/envs/
+app/output/

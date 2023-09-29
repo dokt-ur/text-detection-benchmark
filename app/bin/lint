@@ -1,0 +1,17 @@
+#!/bin/bash
+set -exu
+
+pip3 install isort black flake8 mypy types-requests
+
+cd "$(dirname "$0")"/..
+
+FILES=$(find . -type f -name '*.py' -not -path "./envs/*" -not -path "./output/*")
+
+isort ${FILES}
+black ${FILES}
+
+# Flake8 and wemake
+flake8 ${FILES}
+
+# Type verification with mypy
+mypy ${FILES}

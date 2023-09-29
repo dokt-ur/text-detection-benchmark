@@ -1,0 +1,20 @@
+#!/bin/bash
+set -exu
+
+CWD=$(pwd)
+ENV_DIR=$CWD/envs
+
+
+# install py38
+sudo add-apt-repository ppa:deadsnakes/ppa
+sudo apt install python3.8 python3.8-distutils python3.8-venv python3.8-dev -y
+curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+python3.8 get-pip.py
+rm get-pip.py
+
+# Paddle env
+python3.8 -m venv $ENV_DIR/paddle_onnx
+source $ENV_DIR/paddle_onnx/bin/activate
+sudo apt-get update && sudo apt-get install ffmpeg libsm6 libxext6 build-essential python3-dev gcc -y
+pip3 install -r requirements.txt
+deactivate
